@@ -1239,6 +1239,10 @@ footer{background:var(--dark);color:#fff;padding:60px 5% 30px;}
       <button class="review-close" onclick="closeAddReviewModal()">&times;</button>
     </div>
     <div class="form-field">
+      <label>Your Name</label>
+      <input type="text" id="reviewName" placeholder="e.g. Priya Sharma" />
+    </div>
+    <div class="form-field">
       <label>Rating</label>
       <div class="star-rating" id="modalStarRating">
         <span onclick="setRating(1)">★</span>
@@ -1990,11 +1994,6 @@ let currentRating = 5;
 let uploadedReviewPhoto = '';
 
 function openAddReviewModal() {
-  const customer = localStorage.getItem('savoria_customer_logged_in');
-  if (!customer) {
-    window.location.href = 'customer-login.html';
-    return;
-  }
   document.getElementById('reviewModal').classList.add('show');
   setRating(5);
 }
@@ -2026,17 +2025,21 @@ function previewReviewPhoto(event) {
 }
 
 function submitReview() {
+  const name = document.getElementById('reviewName').value.trim();
   const dish = document.getElementById('reviewDish').value.trim();
   const text = document.getElementById('reviewText').value.trim();
+  
+  if (!name) {
+    alert('Please enter your name.');
+    return;
+  }
   if (!text) {
     alert('Please enter your review text.');
     return;
   }
   
-  const customerName = localStorage.getItem('savoria_customer_name') || 'Guest Diner';
-  
   const newReview = {
-    name: customerName,
+    name: name,
     rating: currentRating,
     text: text,
     dish: dish,
@@ -2050,6 +2053,7 @@ function submitReview() {
   localStorage.setItem('savoria_reviews', JSON.stringify(existing));
   
   closeAddReviewModal();
+  document.getElementById('reviewName').value = '';
   document.getElementById('reviewDish').value = '';
   document.getElementById('reviewText').value = '';
   document.getElementById('reviewPhotoPreview').style.display = 'none';
