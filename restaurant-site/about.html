@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | Savoria Bistro</title>
+    <meta name="description" content="Discover the story, heritage, and culinary philosophy of Savoria Bistro, founded in 2014 by Chef Marco & Elena Rossi." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrapper">
+        <a href="index.html" class="brand-logo" id="brandLogo">
+          Savoria <span>Bistro</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link" id="navHome">Home</a></li>
+            <li><a href="about.html" class="nav-link active" id="navAbout">About Us</a></li>
+            <li><a href="menu.html" class="nav-link" id="navMenu">Menu</a></li>
+            <li><a href="gallery.html" class="nav-link" id="navGallery">Gallery</a></li>
+            <li><a href="contact.html" class="nav-link" id="navContact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main style="padding-top: var(--nav-height);">
+      <!-- Page Hero Banner -->
+      <section style="background-color: var(--color-dark); color: #ffffff; padding: 4.5rem 1.5rem; text-align: center;">
+        <div class="container">
+          <span class="section-badge" style="background-color: rgba(255, 255, 255, 0.12); color: #f7d4bd;">Our Story & Heritage</span>
+          <h1 style="color: #ffffff; font-size: clamp(2.4rem, 5vw, 3.5rem); margin-top: 0.5rem;">Rooted in Passion, Crafted with Heart</h1>
+          <p style="color: #d1c8c0; max-width: 620px; margin: 1rem auto 0 auto; font-size: 1.1rem;">
+            From a humble hearth in 2014 to a celebrated sanctuary for European gastronomy.
+          </p>
+        </div>
+      </section>
+
+      <!-- About Us Content Section -->
+      <section class="section-padding about-section" id="about">
+        <div class="container">
+          <div class="about-grid">
+            <div class="about-content">
+              <span class="section-badge">Craftsmanship</span>
+              <h2>A Decade of Heartfelt Hospitality</h2>
+              <p>
+                Founded in <strong>2014</strong> by culinary partners Chef Marco Rossi and Elena Rossi, 
+                <strong>Savoria Bistro</strong> was born from a desire to bring old-world hearthside cooking 
+                into contemporary dining. What started as a cozy 24-seat boutique has blossomed into the valley's 
+                favorite destination for seasonal culinary celebrations.
+              </p>
+              <p>
+                Our kitchen honors the authentic craft: making fresh pasta every morning from organic stone-ground flour, 
+                slow-smoking meats over aromatic cherrywood, and sourcing heritage greens directly from 
+                organic growers within fifty miles.
+              </p>
+              <p>
+                <strong>The Ambience:</strong> Step into an intimate sanctuary filled with the gentle crackle 
+                of our open wood-fired hearth, soft acoustic jazz melodies, and natural reclaimed oak dining tables 
+                bathed in golden candle glow.
+              </p>
+
+              <!-- Verified Stats Grid -->
+              <div class="about-stats">
+                <div class="stat-item" id="statYears">
+                  <div class="stat-number">12+</div>
+                  <div class="stat-label">Years of Culinary Heritage</div>
+                </div>
+                <div class="stat-item" id="statRating">
+                  <div class="stat-number">4.9 ★</div>
+                  <div class="stat-label">Guest Rating (2,400+ Reviews)</div>
+                </div>
+                <div class="stat-item" id="statAwards">
+                  <div class="stat-number">3</div>
+                  <div class="stat-label">National Culinary Awards</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-visual">
+              <div class="about-img-main">
+                <img 
+                  src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1000&q=80" 
+                  alt="Executive Chef Marco in the kitchen preparing artisan dishes" 
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="about-floating-badge" id="aboutBadge">
+                <div class="badge-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 13.8a4.4 4.4 0 0 1-2-3.8 4.5 4.5 0 0 1 7.7-3.2A4.5 4.5 0 0 1 19.4 9a4.4 4.4 0 0 1-1.4 4.8"></path>
+                    <path d="M6 18h12"></path>
+                    <path d="M6 21h12"></path>
+                  </svg>
+                </div>
+                <div class="badge-text">
+                  <strong>Est. 2014</strong>
+                  <span>Head Chef Marco Rossi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Values / Philosophy Section -->
+      <section class="features-section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-badge">Our Pillars</span>
+            <h2 class="section-title">The Culinary Philosophy</h2>
+            <p class="section-subtitle">Three steadfast commitments that guide every dish we create.</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path><path d="M12 6v6l4 2"></path></svg>
+              </div>
+              <h3 class="feature-title">Slow Food Discipline</h3>
+              <p class="feature-text">Broths simmered for 18 hours, natural 72-hour dough fermentation, and zero shortcuts.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
+              </div>
+              <h3 class="feature-title">Regenerative Sourcing</h3>
+              <p class="feature-text">100% of our produce and cheeses are sourced from verified regional family-owned farms.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+              </div>
+              <h3 class="feature-title">Heartfelt Hospitality</h3>
+              <p class="feature-text">Every guest is treated like an honored visitor in our home, from greeting to final farewell.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="siteFooter">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="brand-logo">Savoria <span>Bistro</span></a>
+            <p>Handcrafted dining celebrating heritage recipes, organic local produce, and warm hospitality.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Explore</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="menu.html">Seasonal Menu</a></li>
+              <li><a href="gallery.html">Photo Gallery</a></li>
+              <li><a href="contact.html">Contact & Map</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Hours</h4>
+            <ul class="footer-info-list">
+              <li><div><strong>Mon - Thu</strong><br />5:00 PM – 10:00 PM</div></li>
+              <li><div><strong>Fri - Sat</strong><br />4:30 PM – 11:00 PM</div></li>
+              <li><div><strong>Sunday Brunch</strong><br />10:30 AM – 3:00 PM</div></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul class="footer-info-list">
+              <li><span>742 Evergreen Terrace, Culinary District, CA 94558</span></li>
+              <li><span>+91 98765 43210</span></li>
+              <li><span>hello@savoriabistro.com</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Savoria Bistro. Handcrafted with semantic HTML, modern CSS, and vanilla JavaScript.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

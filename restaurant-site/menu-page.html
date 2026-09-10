@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Menu | Savoria Bistro Handcrafted Dining</title>
+  <meta name="description" content="Explore Savoria Bistro's full restaurant menu. Discover artisan starters, wood-fired mains, decadent desserts, and craft botanical cocktails with prices in ₹." />
+  <meta property="og:title" content="Food Menu | Savoria Bistro" />
+  <meta property="og:description" content="Explore Savoria Bistro's full restaurant menu with per-category interactive sliders, dish photos, and prices in ₹." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --rust: #c0624a;
+      --rust-dark: #96251b;
+      --rust-deep: #610d0d;
+      --dark-bg: #0d0d0e;
+      --dark-card: #18181a;
+      --dark-card-hover: #222226;
+      --cream: #f6f1e8;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-red: rgba(192, 98, 74, 0.35);
+      --text-muted: #9e9ea7;
+      --text-light: #ececee;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ─── 1. TOP NAVBAR ─── */
+    nav {
+      position: sticky; top: 0; width: 100%; z-index: 1000;
+      background: rgba(13, 13, 14, 0.96); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px; border-bottom: 1px solid var(--border);
+    }
+    .brand-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.55rem; font-weight: 700; text-decoration: none;
+      color: #ffffff; display: flex; align-items: center; gap: 6px;
+    }
+    .brand-logo span { color: var(--rust); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: #bbb;
+      font-size: 0.9rem; font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--rust); }
+    .nav-btn-admin {
+      background: var(--rust); color: white !important;
+      padding: 7px 18px; border-radius: 999px; font-weight: 600 !important;
+      font-size: 0.82rem !important; transition: background 0.2s, transform 0.15s;
+    }
+    .nav-btn-admin:hover { background: #a84f38; transform: translateY(-1px); }
+    .nav-toggle {
+      display: none; background: none; border: none; font-size: 1.6rem;
+      cursor: pointer; color: white;
+    }
+
+    /* ─── 2. TOP BANNER (FOOD MENU POSTER STYLE) ─── */
+    .hero-banner {
+      position: relative;
+      background: linear-gradient(135deg, #440c0c 0%, #200404 55%, #0e0202 100%);
+      border-bottom: 3px solid var(--rust);
+      padding: 68px 48px 60px;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 80% 40%, rgba(220, 70, 50, 0.22), transparent 65%);
+      pointer-events: none;
+    }
+    .banner-inner {
+      max-width: 1320px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.25fr 0.75fr;
+      gap: 40px; align-items: center; position: relative; z-index: 2;
+    }
+    .banner-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffc4b3; padding: 6px 18px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .banner-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 6vw, 4.8rem); font-weight: 700;
+      color: #ffffff; line-height: 1.05; margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+    .banner-title span {
+      color: #ff9176; font-style: italic; font-weight: 400;
+    }
+    .banner-tagline {
+      font-size: 1.08rem; color: #e0d0cc; max-width: 580px;
+      line-height: 1.7; margin-bottom: 30px;
+    }
+    .banner-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-explore {
+      background: var(--rust); color: white; padding: 13px 30px;
+      border-radius: 8px; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-explore:hover { background: #a84f38; transform: translateY(-2px); }
+    .btn-admin-edit {
+      background: rgba(255, 255, 255, 0.1); color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3); padding: 13px 26px;
+      border-radius: 8px; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-admin-edit:hover { background: rgba(255, 255, 255, 0.2); }
+
+    /* Featured Circular Food Photo */
+    .banner-photo-wrap {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    .circle-photo-ring {
+      position: relative; width: 290px; height: 290px;
+      border-radius: 50%; padding: 8px;
+      background: linear-gradient(135deg, #ff7a59, #8c1d18);
+      box-shadow: 0 0 50px rgba(192, 98, 74, 0.45), 0 20px 40px rgba(0,0,0,0.6);
+      animation: pulseGlow 4s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 35px rgba(192, 98, 74, 0.35), 0 15px 35px rgba(0,0,0,0.6); }
+      to { box-shadow: 0 0 55px rgba(255, 122, 89, 0.55), 0 25px 50px rgba(0,0,0,0.8); }
+    }
+    .circle-photo-ring img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 50%; display: block; border: 4px solid #1a0808;
+    }
+    .circle-badge {
+      position: absolute; bottom: 12px; right: 8px;
+      background: #ffffff; color: #1a1a1a; padding: 8px 16px;
+      border-radius: 999px; font-weight: 700; font-size: 0.78rem;
+      letter-spacing: 0.5px; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* ─── 3. MAIN PAGE CONTAINER: SIDEBAR + CONTENT ─── */
+    .menu-layout {
+      max-width: 1440px; margin: 0 auto;
+      display: grid; grid-template-columns: 280px 1fr;
+      gap: 36px; padding: 40px 48px 80px;
+      position: relative;
+    }
+
+    /* ── LEFT STICKY SIDEBAR ── */
+    .sidebar {
+      position: sticky; top: 96px;
+      height: fit-content;
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    .sidebar-title {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--rust); margin-bottom: 12px;
+    }
+    .cat-nav-list { display: flex; flex-direction: column; gap: 6px; }
+    .cat-nav-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-radius: 10px;
+      color: #cccccc; text-decoration: none; font-size: 0.92rem; font-weight: 600;
+      transition: all 0.2s; border: 1px solid transparent;
+    }
+    .cat-nav-link:hover, .cat-nav-link.active {
+      background: rgba(192, 98, 74, 0.15);
+      border-color: var(--border-red);
+      color: #ffffff; transform: translateX(4px);
+    }
+    .cat-nav-link .cat-label { display: flex; align-items: center; gap: 10px; }
+    .cat-nav-link .cat-count {
+      background: rgba(255, 255, 255, 0.08); color: #ffb19f;
+      padding: 2px 9px; border-radius: 999px; font-size: 0.75rem; font-weight: 700;
+    }
+    .cat-nav-link.active .cat-count {
+      background: var(--rust); color: white;
+    }
+
+    /* Sidebar Contact Box */
+    .sidebar-contact {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      font-size: 0.85rem; color: #aaaaaa;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .sidebar-contact h4 { color: #ffffff; font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
+    .sidebar-contact-row { display: flex; align-items: flex-start; gap: 10px; }
+    .sidebar-contact-row .icon { color: var(--rust); font-size: 1rem; flex-shrink: 0; }
+    .sidebar-wa-btn {
+      margin-top: 8px; background: rgba(37, 211, 102, 0.12);
+      border: 1px solid #25D366; color: #25D366; padding: 9px 14px;
+      border-radius: 8px; text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: background 0.2s;
+    }
+    .sidebar-wa-btn:hover { background: #25D366; color: white; }
+
+    /* ── MAIN CONTENT AREA ── */
+    .menu-main {
+      display: flex; flex-direction: column; gap: 40px; min-width: 0;
+    }
+
+    /* ── SEARCH & FILTER CONTROLS ── */
+    .filter-search-bar {
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 18px;
+    }
+    .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-pill {
+      background: transparent; border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: #bbb; padding: 8px 20px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-pill:hover, .filter-pill.active {
+      background: var(--rust); border-color: var(--rust); color: #fff;
+    }
+    .search-box {
+      display: flex; align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px; padding: 4px 6px 4px 16px;
+      width: 320px; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-box:focus-within {
+      border-color: var(--rust);
+      box-shadow: 0 0 0 3px rgba(192, 98, 74, 0.25);
+    }
+    .search-box input {
+      background: transparent; border: none; outline: none;
+      color: #fff; font-size: 0.88rem; width: 100%;
+    }
+    .search-box input::placeholder { color: #777; }
+    .search-box button {
+      background: var(--rust); border: none; color: white;
+      width: 34px; height: 34px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+
+    /* ── PER-CATEGORY SLIDER SECTIONS ── */
+    .category-section {
+      scroll-margin-top: 100px;
+    }
+    .category-header-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .cat-title-group h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.7rem; font-weight: 700; color: #ffffff;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .cat-title-group .cat-desc {
+      font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;
+    }
+    .slider-nav-arrows {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .cat-arrow-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      color: white; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .cat-arrow-btn:hover:not(:disabled) {
+      background: var(--rust); border-color: var(--rust); transform: scale(1.05);
+    }
+    .cat-arrow-btn:disabled {
+      opacity: 0.22; cursor: default;
+    }
+
+    /* Slider Track Wrapper */
+    .slider-viewport {
+      overflow: hidden; width: 100%;
+      padding: 6px 0 16px;
+    }
+    .slider-carousel-track {
+      display: flex; gap: 24px;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    /* MENU DISH CARD */
+    .dish-card {
+      flex: 0 0 295px;
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .dish-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6);
+      border-color: var(--border-red);
+    }
+    .dish-card-img-wrap {
+      position: relative; height: 200px;
+      background: #252528; overflow: hidden;
+    }
+    .dish-card-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .dish-card:hover .dish-card-img-wrap img {
+      transform: scale(1.08);
+    }
+    .dish-cat-pill {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(13, 13, 14, 0.85); backdrop-filter: blur(6px);
+      color: #ff9176; font-size: 0.7rem; font-weight: 700;
+      padding: 4px 11px; border-radius: 999px; text-transform: uppercase;
+      letter-spacing: 0.5px; border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    /* PRICE OVERLAY ON IMAGE */
+    .dish-price-overlay {
+      position: absolute; bottom: 12px; right: 12px;
+      background: linear-gradient(135deg, var(--rust), #8e1f18);
+      color: #ffffff; font-weight: 700; font-size: 0.98rem;
+      padding: 5px 14px; border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .dish-card-body {
+      padding: 20px 20px 24px;
+      display: flex; flex-direction: column; flex: 1;
+    }
+    .dish-card-body h4 {
+      font-size: 1.12rem; font-weight: 700; color: #ffffff;
+      margin-bottom: 8px; line-height: 1.35;
+    }
+    .dish-card-body p {
+      font-size: 0.84rem; color: var(--text-muted);
+      line-height: 1.6; flex: 1;
+    }
+
+    /* RED STRIPE DIVIDERS (MENU POSTER STYLE) */
+    .red-stripe-divider {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin: 36px 0 40px;
+    }
+    .red-stripe-line {
+      flex: 1; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--rust), transparent);
+    }
+    .red-stripe-emblem {
+      color: var(--rust); font-size: 1.1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .red-stripe-emblem span { font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+
+    /* NO RESULTS NOTICE */
+    .empty-category-notice {
+      display: none; padding: 32px; text-align: center;
+      background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border);
+      border-radius: 12px; color: var(--text-muted); font-size: 0.9rem;
+    }
+    .global-no-results {
+      display: none; text-align: center; padding: 64px 24px;
+      background: var(--dark-card); border-radius: 16px; border: 1px solid var(--border);
+    }
+    .global-no-results h3 { font-size: 1.3rem; margin-bottom: 8px; color: #fff; }
+    .global-no-results p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 18px; }
+    .btn-reset-search {
+      background: var(--rust); color: white; border: none;
+      padding: 9px 24px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    }
+
+    /* ─── 4. FOOTER POSTER BANNER ─── */
+    .footer-poster-banner {
+      background: linear-gradient(135deg, #240505 0%, #120202 70%, #080101 100%);
+      border-top: 3px solid var(--rust);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 48px;
+      position: relative;
+    }
+    .footer-banner-inner {
+      max-width: 1320px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 40px; align-items: center;
+    }
+    .fb-col-info h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.65rem; color: #fff; margin-bottom: 8px;
+    }
+    .fb-col-info h3 span { color: var(--rust); }
+    .fb-col-info p {
+      font-size: 0.88rem; color: #bbb; line-height: 1.65;
+    }
+    .fb-stats-group {
+      display: flex; gap: 28px;
+    }
+    .fb-stat-item strong {
+      display: block; font-size: 1.85rem; color: #ff9176;
+      font-weight: 700; line-height: 1.1;
+    }
+    .fb-stat-item span {
+      font-size: 0.78rem; color: #999; text-transform: uppercase;
+      letter-spacing: 1px; font-weight: 600;
+    }
+    /* Free Delivery Badge */
+    .delivery-badge-card {
+      background: rgba(192, 98, 74, 0.16);
+      border: 2px dashed #ff5233;
+      border-radius: 14px; padding: 20px 24px;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+    }
+    .delivery-pill {
+      background: #c02b1d; color: #fff;
+      font-weight: 800; font-size: 0.82rem; letter-spacing: 1.5px;
+      padding: 5px 16px; border-radius: 999px; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 6px;
+      box-shadow: 0 4px 12px rgba(192, 43, 29, 0.4);
+    }
+    .delivery-badge-card p {
+      color: #f0e6e4; font-size: 0.84rem; margin-top: 4px; line-height: 1.5;
+    }
+
+    /* Sub-Footer */
+    .sub-footer {
+      background: #080809; color: #777; text-align: center;
+      padding: 24px; font-size: 0.82rem;
+    }
+    .sub-footer a { color: var(--rust); text-decoration: none; margin: 0 6px; }
+    .sub-footer a:hover { text-decoration: underline; }
+
+    /* ─── RESPONSIVE STYLES ─── */
+    @media (max-width: 1080px) {
+      .menu-layout { grid-template-columns: 1fr; padding: 32px 24px 60px; }
+      .sidebar {
+        position: static; height: auto;
+      }
+      .cat-nav-list { flex-direction: row; flex-wrap: wrap; }
+      .cat-nav-link { flex: 1 1 180px; }
+      .banner-inner { grid-template-columns: 1fr; text-align: center; }
+      .banner-tagline { margin: 0 auto 28px; }
+      .banner-actions { justify-content: center; }
+      .circle-photo-ring { width: 220px; height: 220px; }
+      .footer-banner-inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .hero-banner { padding: 48px 20px 40px; }
+      .footer-poster-banner { padding: 40px 20px; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        background: #111114; flex-direction: column; padding: 20px 24px;
+        border-bottom: 1px solid var(--border); box-shadow: 0 10px 24px rgba(0,0,0,0.5);
+        gap: 16px; align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+      .filter-search-bar { flex-direction: column; align-items: stretch; }
+      .search-box { width: 100%; }
+      .dish-card { flex: 0 0 260px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 1. TOP NAVBAR -->
+<nav id="topNav">
+  <a href="index.html" class="brand-logo" id="siteLogo">
+    <span id="navLogoName">Savoria</span> <span id="navLogoSuffix">Bistro</span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="menu-page.html" class="active">Menu</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="admin.html" class="nav-btn-admin">🔐 Staff Portal</a></li>
+  </ul>
+</nav>
+
+<!-- 2. TOP BANNER (FOOD MENU POSTER) -->
+<header class="hero-banner">
+  <div class="banner-inner">
+    <div>
+      <div class="banner-badge">✦ Chef-Crafted Dining Experience ✦</div>
+      <h1 class="banner-title">Food <span>MENU</span></h1>
+      <p class="banner-tagline" id="bannerTagline">
+        Intimate culinary artistry celebrating organic regional harvests, slow wood-fired traditions, and passionate hospitality. Browse our a la carte selections below.
+      </p>
+      <div class="banner-actions">
+        <a href="#menuMain" class="btn-explore">Explore Menu &darr;</a>
+        <a href="admin.html" class="btn-admin-edit">⚙️ Edit in Admin</a>
+      </div>
+    </div>
+    <div class="banner-photo-wrap">
+      <div class="circle-photo-ring">
+        <img id="featuredHeroImg" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop" alt="Featured Wood-Fired Dish" />
+        <div class="circle-badge">⭐ Signature Harvest</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 3. MAIN LAYOUT: SIDEBAR + CONTENT -->
+<div class="menu-layout">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-title">Menu Categories</div>
+      <nav class="cat-nav-list" id="catNavList">
+        <a href="#sec-Starters" class="cat-nav-link active" onclick="smoothToCategory('Starters', event)">
+          <span class="cat-label">🥗 Starters</span>
+          <span class="cat-count" id="count-Starters">0</span>
+        </a>
+        <a href="#sec-Mains" class="cat-nav-link" onclick="smoothToCategory('Mains', event)">
+          <span class="cat-label">🍽️ Mains</span>
+          <span class="cat-count" id="count-Mains">0</span>
+        </a>
+        <a href="#sec-Desserts" class="cat-nav-link" onclick="smoothToCategory('Desserts', event)">
+          <span class="cat-label">🍮 Desserts</span>
+          <span class="cat-count" id="count-Desserts">0</span>
+        </a>
+        <a href="#sec-Drinks" class="cat-nav-link" onclick="smoothToCategory('Drinks', event)">
+          <span class="cat-label">🍹 Drinks</span>
+          <span class="cat-count" id="count-Drinks">0</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Restaurant Contact Info at Sidebar Bottom -->
+    <div class="sidebar-contact">
+      <h4 id="sideRestName">Savoria Bistro</h4>
+      <div class="sidebar-contact-row">
+        <span class="icon">📍</span>
+        <span id="sideAddr">742 Evergreen Terrace, Culinary District, CA</span>
+      </div>
+      <div class="sidebar-contact-row">
+        <span class="icon">📞</span>
+        <span id="sidePhone">+91 98765 43210</span>
+      </div>
+      <div class="sidebar-contact-row">
+        <span class="icon">🕐</span>
+        <span>Daily 5:00 PM &ndash; 11:00 PM</span>
+      </div>
+      <a id="sideWaLink" href="https://wa.me/919876543210" target="_blank" class="sidebar-wa-btn">
+        💬 WhatsApp Table Booking
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN MENU CONTENT -->
+  <main class="menu-main" id="menuMain">
+
+    <!-- Search + Filter Bar -->
+    <div class="filter-search-bar">
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" onclick="setCategoryFilter('all', this)">All Categories</button>
+        <button class="filter-pill" onclick="setCategoryFilter('Starters', this)">Starters</button>
+        <button class="filter-pill" onclick="setCategoryFilter('Mains', this)">Mains</button>
+        <button class="filter-pill" onclick="setCategoryFilter('Desserts', this)">Desserts</button>
+        <button class="filter-pill" onclick="setCategoryFilter('Drinks', this)">Drinks</button>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="liveSearchInput" placeholder="Search dish, ingredients..." oninput="handleSearch()" />
+        <button onclick="handleSearch()" aria-label="Search">🔍</button>
+      </div>
+    </div>
+
+    <!-- Global Empty Notice (when search finds 0 dishes) -->
+    <div class="global-no-results" id="globalNoResults">
+      <h3>No Dishes Found</h3>
+      <p>We couldn't find any dishes matching your search query. Try clearing the search or exploring another category.</p>
+      <button class="btn-reset-search" onclick="resetSearch()">View Full Menu</button>
+    </div>
+
+    <!-- PER-CATEGORY SECTIONS -->
+    <div id="categoryContainers">
+      <!-- Starters Section -->
+      <section class="category-section" id="sec-Starters">
+        <div class="category-header-row">
+          <div class="cat-title-group">
+            <h3><span>🥗</span> Starters</h3>
+            <div class="cat-desc" id="sub-Starters">Artisan small plates and seasonal appetizers to awaken your palate</div>
+          </div>
+          <div class="slider-nav-arrows">
+            <button class="cat-arrow-btn" id="arrow-prev-Starters" onclick="slideCategory('Starters', -1)" aria-label="Previous Starters" disabled>&#8592;</button>
+            <button class="cat-arrow-btn" id="arrow-next-Starters" onclick="slideCategory('Starters', 1)" aria-label="Next Starters">&#8594;</button>
+          </div>
+        </div>
+        <div class="slider-viewport" id="viewport-Starters">
+          <div class="slider-carousel-track" id="track-Starters"></div>
+        </div>
+        <div class="empty-category-notice" id="empty-Starters">No starters match your search.</div>
+      </section>
+
+      <!-- Red Stripe Divider -->
+      <div class="red-stripe-divider">
+        <div class="red-stripe-line"></div>
+        <div class="red-stripe-emblem">✦ <span>Wood-Fired Hearth</span> ✦</div>
+        <div class="red-stripe-line"></div>
+      </div>
+
+      <!-- Mains Section -->
+      <section class="category-section" id="sec-Mains">
+        <div class="category-header-row">
+          <div class="cat-title-group">
+            <h3><span>🍽️</span> Mains</h3>
+            <div class="cat-desc" id="sub-Mains">Hand-rolled pasta, wood-fired cuts, and seasonal harvest centerpieces</div>
+          </div>
+          <div class="slider-nav-arrows">
+            <button class="cat-arrow-btn" id="arrow-prev-Mains" onclick="slideCategory('Mains', -1)" aria-label="Previous Mains" disabled>&#8592;</button>
+            <button class="cat-arrow-btn" id="arrow-next-Mains" onclick="slideCategory('Mains', 1)" aria-label="Next Mains">&#8594;</button>
+          </div>
+        </div>
+        <div class="slider-viewport" id="viewport-Mains">
+          <div class="slider-carousel-track" id="track-Mains"></div>
+        </div>
+        <div class="empty-category-notice" id="empty-Mains">No mains match your search.</div>
+      </section>
+
+      <!-- Red Stripe Divider -->
+      <div class="red-stripe-divider">
+        <div class="red-stripe-line"></div>
+        <div class="red-stripe-emblem">✦ <span>Sweet Decadence</span> ✦</div>
+        <div class="red-stripe-line"></div>
+      </div>
+
+      <!-- Desserts Section -->
+      <section class="category-section" id="sec-Desserts">
+        <div class="category-header-row">
+          <div class="cat-title-group">
+            <h3><span>🍮</span> Desserts</h3>
+            <div class="cat-desc" id="sub-Desserts">Handcrafted sweets, velvety gelato, and bittersweet patisserie finishes</div>
+          </div>
+          <div class="slider-nav-arrows">
+            <button class="cat-arrow-btn" id="arrow-prev-Desserts" onclick="slideCategory('Desserts', -1)" aria-label="Previous Desserts" disabled>&#8592;</button>
+            <button class="cat-arrow-btn" id="arrow-next-Desserts" onclick="slideCategory('Desserts', 1)" aria-label="Next Desserts">&#8594;</button>
+          </div>
+        </div>
+        <div class="slider-viewport" id="viewport-Desserts">
+          <div class="slider-carousel-track" id="track-Desserts"></div>
+        </div>
+        <div class="empty-category-notice" id="empty-Desserts">No desserts match your search.</div>
+      </section>
+
+      <!-- Red Stripe Divider -->
+      <div class="red-stripe-divider">
+        <div class="red-stripe-line"></div>
+        <div class="red-stripe-emblem">✦ <span>Botanical Sips</span> ✦</div>
+        <div class="red-stripe-line"></div>
+      </div>
+
+      <!-- Drinks Section -->
+      <section class="category-section" id="sec-Drinks">
+        <div class="category-header-row">
+          <div class="cat-title-group">
+            <h3><span>🍹</span> Drinks</h3>
+            <div class="cat-desc" id="sub-Drinks">Artisanal botanical cocktails, aged wine pairings, and spiced teas</div>
+          </div>
+          <div class="slider-nav-arrows">
+            <button class="cat-arrow-btn" id="arrow-prev-Drinks" onclick="slideCategory('Drinks', -1)" aria-label="Previous Drinks" disabled>&#8592;</button>
+            <button class="cat-arrow-btn" id="arrow-next-Drinks" onclick="slideCategory('Drinks', 1)" aria-label="Next Drinks">&#8594;</button>
+          </div>
+        </div>
+        <div class="slider-viewport" id="viewport-Drinks">
+          <div class="slider-carousel-track" id="track-Drinks"></div>
+        </div>
+        <div class="empty-category-notice" id="empty-Drinks">No beverages match your search.</div>
+      </section>
+    </div>
+
+  </main>
+</div>
+
+<!-- 4. FOOTER BANNER -->
+<footer class="footer-poster-banner">
+  <div class="footer-banner-inner">
+    <!-- Col 1: Restaurant Info -->
+    <div class="fb-col-info">
+      <h3 id="footerRestName">Savoria <span>Bistro</span></h3>
+      <p id="footerAddr">742 Evergreen Terrace, Culinary District, CA 94558</p>
+      <p style="margin-top:4px;">Phone: <strong style="color:#fff;" id="footerPhone">+91 98765 43210</strong> &bull; Email: hello@savoriabistro.com</p>
+    </div>
+
+    <!-- Col 2: Restaurant Stats -->
+    <div class="fb-stats-group">
+      <div class="fb-stat-item">
+        <strong id="statFounded">2012</strong>
+        <span>Established</span>
+      </div>
+      <div class="fb-stat-item">
+        <strong id="statRating">4.9★</strong>
+        <span>Guest Rating</span>
+      </div>
+      <div class="fb-stat-item">
+        <strong id="statTotalItems">10</strong>
+        <span>Dishes On Menu</span>
+      </div>
+    </div>
+
+    <!-- Col 3: FREE DELIVERY BADGE -->
+    <div>
+      <div class="delivery-badge-card">
+        <div class="delivery-pill">🚚 FREE DELIVERY</div>
+        <p>Enjoy complimentary doorstep dining delivery on all online &amp; phone orders above ₹500.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sub-footer">
+  &copy; 2026 Savoria Bistro. Handcrafted with passion. &bull;
+  <a href="index.html">Home</a> &bull;
+  <a href="menu-page.html">Menu</a> &bull;
+  <a href="blog.html">Blog</a> &bull;
+  <a href="admin.html">Staff Admin</a>
+</div>
+
+<script>
+  // ─── DEFAULT RESTAURANT DATA (10 ITEMS) ───
+  const defaultInfo = {
+    rName: 'Savoria Bistro',
+    rTagline: 'Authentic Culinary Tradition',
+    rAbout: 'Founded in 2012 by Chef Marco Aldini and sommelier Elena Rossi, Savoria Bistro was born from a dream — to create a space where food is a celebration of local land and human connection.',
+    rYear: '2012',
+    rRating: '4.9★'
+  };
+
+  const defaultMenu = [
+    { name: 'Heirloom Bruschetta', cat: 'Starters', price: 380, photo: 'https://images.unsplash.com/photo-1541014741259-de529411b96a?w=600&auto=format&fit=crop', desc: 'Sourdough crostini, roasted cherry tomatoes, fresh basil oil, aged balsamic drizzle.' },
+    { name: 'Forest Mushroom Velouté', cat: 'Starters', price: 450, photo: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&auto=format&fit=crop', desc: 'Wild porcini, truffle cream, crispy shallots, herb oil.' },
+    { name: 'Burrata & Heirloom Tomato', cat: 'Starters', price: 520, photo: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=600&auto=format&fit=crop', desc: 'Creamy burrata, heritage tomatoes, pesto oil, sea salt flakes.' },
+    { name: 'House-made Tagliatelle', cat: 'Mains', price: 720, photo: 'https://images.unsplash.com/photo-1432139509613-5c4255815697?w=600&auto=format&fit=crop', desc: 'Egg pasta, slow-braised lamb ragù, pecorino, toasted pine nuts.' },
+    { name: 'Wood-Fired Sea Bass', cat: 'Mains', price: 980, photo: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop', desc: 'Lemon-caper butter, seasonal vegetables, saffron risotto cake.' },
+    { name: 'Lamb Shoulder Ragù', cat: 'Mains', price: 1150, photo: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&auto=format&fit=crop', desc: '12-hour slow-braised Rajasthani lamb, polenta, gremolata.' },
+    { name: 'Classic Tiramisù', cat: 'Desserts', price: 340, photo: 'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=600&auto=format&fit=crop', desc: 'Espresso-soaked ladyfingers, mascarpone cloud, bittersweet cocoa dust.' },
+    { name: 'Mango Panna Cotta', cat: 'Desserts', price: 290, photo: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&auto=format&fit=crop', desc: 'Alphonso mango, vanilla panna cotta, raspberry coulis.' },
+    { name: 'Rosemary Gin Fizz', cat: 'Drinks', price: 420, photo: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&auto=format&fit=crop', desc: 'House-infused rosemary gin, elderflower tonic, lemon zest, crushed ice.' },
+    { name: 'Spiced Chai Latte', cat: 'Drinks', price: 180, photo: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=600&auto=format&fit=crop', desc: 'House-spiced masala chai, oat milk foam, cinnamon dust.' }
+  ];
+
+  const defaultContact = {
+    cAddr: '742 Evergreen Terrace, Culinary District, CA 94558',
+    cEmail: 'hello@savoriabistro.com',
+    cPhone: '+91 98765 43210',
+    cInsta: '@savoriabistro',
+    h1: '5:00 PM – 10:00 PM',
+    h2: '4:30 PM – 11:00 PM',
+    h3: '10:30 AM – 3:00 PM'
+  };
+
+  function getLocal(key, def) {
+    try {
+      const raw = localStorage.getItem('savoria_' + key);
+      return raw ? JSON.parse(raw) : def;
+    } catch (e) {
+      return def;
+    }
+  }
+
+  const CATEGORIES = ['Starters', 'Mains', 'Desserts', 'Drinks'];
+  const CARD_WIDTH_STEP = 295 + 24; // Card width + gap
+
+  // State
+  let allDishes = [];
+  let categoryOffsets = { Starters: 0, Mains: 0, Desserts: 0, Drinks: 0 };
+  let currentCategoryFilter = 'all';
+
+  // ─── RENDER DISH CARDS FOR A CATEGORY ───
+  function renderCategorySlider(cat, items) {
+    const track = document.getElementById('track-' + cat);
+    const emptyNotice = document.getElementById('empty-' + cat);
+    if (!track) return;
+
+    if (!items.length) {
+      track.innerHTML = '';
+      if (emptyNotice) emptyNotice.style.display = 'block';
+      updateArrowButtons(cat, 0);
+      return;
+    }
+
+    if (emptyNotice) emptyNotice.style.display = 'none';
+
+    track.innerHTML = items.map(dish => `
+      <div class="dish-card">
+        <div class="dish-card-img-wrap">
+          <img src="${dish.photo || 'https://placehold.co/300x200?text=Dish'}" alt="${dish.name}" onerror="this.src='https://placehold.co/300x200?text=Savoria+Dish'" loading="lazy" />
+          <span class="dish-cat-pill">${dish.cat}</span>
+          <span class="dish-price-overlay">₹${dish.price}</span>
+        </div>
+        <div class="dish-card-body">
+          <h4>${dish.name}</h4>
+          <p>${dish.desc || ''}</p>
+        </div>
+      </div>
+    `).join('');
+
+    categoryOffsets[cat] = 0;
+    track.style.transform = 'translateX(0px)';
+    updateArrowButtons(cat, items.length);
+  }
+
+  // ─── SLIDE CATEGORY (LEFT / RIGHT) ───
+  function slideCategory(cat, dir) {
+    const viewport = document.getElementById('viewport-' + cat);
+    const track = document.getElementById('track-' + cat);
+    if (!viewport || !track) return;
+
+    const visibleWidth = viewport.offsetWidth;
+    const cards = track.children.length;
+    const totalContentWidth = cards * CARD_WIDTH_STEP - 24;
+    const maxOffset = Math.max(0, totalContentWidth - visibleWidth);
+
+    const step = CARD_WIDTH_STEP * (window.innerWidth <= 768 ? 1 : 2);
+    categoryOffsets[cat] = Math.max(0, Math.min(categoryOffsets[cat] + dir * step, maxOffset));
+
+    track.style.transform = `translateX(-${categoryOffsets[cat]}px)`;
+    updateArrowButtons(cat, cards);
+  }
+
+  function updateArrowButtons(cat, cardCount) {
+    const viewport = document.getElementById('viewport-' + cat);
+    const prevBtn = document.getElementById('arrow-prev-' + cat);
+    const nextBtn = document.getElementById('arrow-next-' + cat);
+    if (!viewport || !prevBtn || !nextBtn) return;
+
+    const visibleWidth = viewport.offsetWidth;
+    const totalContentWidth = cardCount * CARD_WIDTH_STEP - 24;
+    const maxOffset = Math.max(0, totalContentWidth - visibleWidth);
+
+    prevBtn.disabled = categoryOffsets[cat] <= 0;
+    nextBtn.disabled = categoryOffsets[cat] >= maxOffset || cardCount === 0;
+  }
+
+  // ─── FILTER & SEARCH LOGIC ───
+  function handleSearch() {
+    applyAllFilters();
+  }
+
+  function setCategoryFilter(cat, btn) {
+    currentCategoryFilter = cat;
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // Update sidebar active state to match
+    document.querySelectorAll('.cat-nav-link').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#sec-' + cat);
+    });
+
+    applyAllFilters();
+
+    if (cat !== 'all') {
+      const targetSec = document.getElementById('sec-' + cat);
+      if (targetSec) targetSec.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function resetSearch() {
+    const searchInput = document.getElementById('liveSearchInput');
+    if (searchInput) searchInput.value = '';
+    currentCategoryFilter = 'all';
+    document.querySelectorAll('.filter-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+    applyAllFilters();
+  }
+
+  function applyAllFilters() {
+    const searchInput = document.getElementById('liveSearchInput');
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+    let grandTotalMatches = 0;
+
+    CATEGORIES.forEach(cat => {
+      const sec = document.getElementById('sec-' + cat);
+      const isCategoryActive = currentCategoryFilter === 'all' || currentCategoryFilter === cat;
+
+      if (!isCategoryActive) {
+        if (sec) sec.style.display = 'none';
+        return;
+      }
+
+      let catDishes = allDishes.filter(d => d.cat === cat);
+
+      if (query) {
+        catDishes = catDishes.filter(d =>
+          (d.name && d.name.toLowerCase().includes(query)) ||
+          (d.desc && d.desc.toLowerCase().includes(query)) ||
+          (d.cat && d.cat.toLowerCase().includes(query)) ||
+          (d.price && String(d.price).includes(query))
+        );
+      }
+
+      if (sec) sec.style.display = 'block';
+      renderCategorySlider(cat, catDishes);
+      grandTotalMatches += catDishes.length;
+    });
+
+    // Global empty state
+    const globalNotice = document.getElementById('globalNoResults');
+    if (globalNotice) {
+      globalNotice.style.display = grandTotalMatches === 0 ? 'block' : 'none';
+    }
+  }
+
+  // ─── SMOOTH SCROLL TO CATEGORY FROM SIDEBAR ───
+  function smoothToCategory(cat, e) {
+    if (e) e.preventDefault();
+    document.querySelectorAll('.cat-nav-link').forEach(link => link.classList.remove('active'));
+    const targetLink = document.querySelector(`.cat-nav-link[href="#sec-${cat}"]`);
+    if (targetLink) targetLink.classList.add('active');
+
+    // If currently filtered to another category, switch to 'all' or that category
+    if (currentCategoryFilter !== 'all' && currentCategoryFilter !== cat) {
+      currentCategoryFilter = 'all';
+      document.querySelectorAll('.filter-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+      applyAllFilters();
+    }
+
+    const targetSec = document.getElementById('sec-' + cat);
+    if (targetSec) {
+      targetSec.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ─── LOAD & SYNC ALL DATA ───
+  function loadMenuPage() {
+    // 1. Restaurant Info
+    const info = getLocal('info', defaultInfo);
+    const rNameParts = (info.rName || 'Savoria Bistro').split(' ');
+    const navLogoName = document.getElementById('navLogoName');
+    const navLogoSuffix = document.getElementById('navLogoSuffix');
+    if (navLogoName && navLogoSuffix) {
+      if (rNameParts.length > 1) {
+        navLogoName.textContent = rNameParts[0];
+        navLogoSuffix.textContent = rNameParts.slice(1).join(' ');
+      } else {
+        navLogoName.textContent = info.rName;
+        navLogoSuffix.textContent = '';
+      }
+    }
+
+    const sideRestName = document.getElementById('sideRestName');
+    if (sideRestName) sideRestName.textContent = info.rName || 'Savoria Bistro';
+    const footerRestName = document.getElementById('footerRestName');
+    if (footerRestName) footerRestName.innerHTML = (info.rName || 'Savoria') + ' <span>Bistro</span>';
+
+    const statFounded = document.getElementById('statFounded');
+    if (statFounded && info.rYear) statFounded.textContent = info.rYear;
+    const statRating = document.getElementById('statRating');
+    if (statRating && info.rRating) statRating.textContent = info.rRating;
+
+    // 2. Contact info
+    const contact = getLocal('contact', defaultContact);
+    const sideAddr = document.getElementById('sideAddr');
+    const sidePhone = document.getElementById('sidePhone');
+    const footerAddr = document.getElementById('footerAddr');
+    const footerPhone = document.getElementById('footerPhone');
+    const sideWaLink = document.getElementById('sideWaLink');
+
+    if (sideAddr) sideAddr.textContent = contact.cAddr || '742 Evergreen Terrace, Culinary District, CA';
+    if (sidePhone) sidePhone.textContent = contact.cPhone || '+91 98765 43210';
+    if (footerAddr) footerAddr.textContent = contact.cAddr || '742 Evergreen Terrace, Culinary District, CA 94558';
+    if (footerPhone) footerPhone.textContent = contact.cPhone || '+91 98765 43210';
+
+    const phoneClean = (contact.cPhone || '').replace(/[^0-9]/g, '');
+    if (sideWaLink) sideWaLink.href = 'https://wa.me/' + (phoneClean || '919876543210');
+
+    // 3. Dishes & Counts
+    allDishes = getLocal('menu', defaultMenu);
+
+    // Update counts per category
+    CATEGORIES.forEach(cat => {
+      const count = allDishes.filter(d => d.cat === cat).length;
+      const countEl = document.getElementById('count-' + cat);
+      if (countEl) countEl.textContent = count;
+    });
+
+    const statTotal = document.getElementById('statTotalItems');
+    if (statTotal) statTotal.textContent = allDishes.length;
+
+    // Set featured photo in top banner if available
+    const featuredPhoto = allDishes.find(d => d.cat === 'Mains') || allDishes[0];
+    const heroImg = document.getElementById('featuredHeroImg');
+    if (heroImg && featuredPhoto && featuredPhoto.photo) {
+      heroImg.src = featuredPhoto.photo;
+    }
+
+    applyAllFilters();
+  }
+
+  // ─── MOBILE NAV TOGGLE ───
+  function toggleNav() {
+    const links = document.getElementById('navLinks');
+    if (links) links.classList.toggle('open');
+  }
+
+  // ─── RESIZE LISTENER FOR ARROWS ───
+  window.addEventListener('resize', () => {
+    CATEGORIES.forEach(cat => {
+      const track = document.getElementById('track-' + cat);
+      if (track) updateArrowButtons(cat, track.children.length);
+    });
+  });
+
+  // ─── SCROLLSPY TO UPDATE SIDEBAR ACTIVE CATEGORY ───
+  window.addEventListener('scroll', () => {
+    const scrollPos = window.scrollY + 160;
+    CATEGORIES.forEach(cat => {
+      const sec = document.getElementById('sec-' + cat);
+      if (!sec || sec.style.display === 'none') return;
+      const top = sec.offsetTop;
+      const height = sec.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        document.querySelectorAll('.cat-nav-link').forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#sec-' + cat);
+        });
+      }
+    });
+  });
+
+  // ─── AUTO-SYNC WITH ADMIN STORAGE ───
+  window.addEventListener('storage', loadMenuPage);
+  window.addEventListener('pageshow', loadMenuPage);
+  document.addEventListener('DOMContentLoaded', loadMenuPage);
+</script>
+</body>
+</html>

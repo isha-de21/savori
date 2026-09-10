@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Savoria Journal — Savoria Bistro</title>
+  <meta name="description" content="Read culinary stories, farm-to-table journals, seasonal recipes, and behind-the-scenes insights from Savoria Bistro." />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --rust: #c0624a; --dark: #1a1a1a; --cream: #f5f0e8; --gray: #555; --white: #ffffff; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(8px); display: flex; align-items: center;
+      justify-content: space-between; padding: 18px 60px;
+      border-bottom: 1px solid #e8e0d5;
+    }
+    .logo { font-size: 1.45rem; font-weight: 700; text-decoration: none; color: var(--dark); font-family: 'Georgia', serif; }
+    .logo span { color: var(--rust); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--dark); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--rust); }
+    .admin-link {
+      font-size: 0.78rem; background: var(--rust); color: white !important;
+      padding: 6px 14px; border-radius: 999px; font-weight: 600;
+      transition: background 0.2s; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .admin-link:hover { background: #a84f38; }
+
+    /* HERO */
+    .blog-hero {
+      background: var(--dark); color: white; text-align: center;
+      padding: 90px 24px 70px;
+    }
+    .blog-hero .label {
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--rust); margin-bottom: 14px; font-weight: 600;
+    }
+    .blog-hero h1 { font-family: 'Georgia', serif; font-size: clamp(2.2rem, 5vw, 3.4rem); margin-bottom: 16px; font-weight: 700; }
+    .blog-hero p { color: #bbb; font-size: 1.05rem; max-width: 580px; margin: 0 auto; line-height: 1.7; }
+
+    /* BLOG SECTION & MASONRY GRID */
+    .blog-section { padding: 64px 60px; flex: 1; max-width: 1300px; margin: 0 auto; width: 100%; }
+    .blog-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px;
+    }
+    .blog-card {
+      background: white; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.06); transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer; display: flex; flex-direction: column; border: 1px solid #e8e0d5;
+    }
+    .blog-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+    .blog-card img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.3s; }
+    .blog-card:hover img { transform: scale(1.03); }
+    .blog-card-img-wrap { overflow: hidden; position: relative; }
+    .blog-card-body { padding: 26px; display: flex; flex-direction: column; flex: 1; }
+    .blog-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .author-dot {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--rust);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; font-weight: 700; flex-shrink: 0;
+    }
+    .meta-text { font-size: 0.82rem; color: #888; }
+    .blog-card h3 {
+      font-size: 1.25rem; margin-bottom: 10px; font-family: 'Georgia', serif;
+      line-height: 1.4; color: var(--dark);
+    }
+    .blog-card p { font-size: 0.92rem; color: var(--gray); line-height: 1.7; flex: 1; }
+    .read-more {
+      display: inline-block; margin-top: 18px; color: var(--rust);
+      font-size: 0.88rem; font-weight: 600; text-decoration: none;
+    }
+    .read-more:hover { text-decoration: underline; }
+    
+    .empty-state {
+      text-align: center; padding: 80px 20px; color: #777; font-size: 1.1rem;
+      background: white; border-radius: 16px; border: 1px dashed #d5c8ba;
+    }
+
+    /* MODAL POPUP */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.65); z-index: 200;
+      align-items: center; justify-content: center; padding: 24px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 16px; max-width: 720px;
+      width: 100%; max-height: 88vh; overflow-y: auto; position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.3); animation: scaleUp 0.2s ease-out;
+    }
+    @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .modal img { width: 100%; height: 320px; object-fit: cover; border-radius: 16px 16px 0 0; display: block; }
+    .modal-body { padding: 36px 36px 40px; }
+    .modal-body h2 { font-size: 1.8rem; font-family: 'Georgia', serif; margin-bottom: 10px; line-height: 1.3; }
+    .modal-body .meta { font-size: 0.88rem; color: #888; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+    .modal-body p { line-height: 1.85; color: #444; font-size: 1.02rem; white-space: pre-line; }
+    .close-btn {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(0,0,0,0.65); color: white; border: none;
+      border-radius: 50%; width: 36px; height: 36px; font-size: 1.2rem;
+      cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .close-btn:hover { background: #d32f2f; transform: scale(1.08); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark); color: #888; text-align: center;
+      padding: 28px 20px; font-size: 0.88rem; border-top: 1px solid #282828;
+    }
+    footer a { color: var(--rust); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .blog-section { padding: 40px 16px; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 14px; }
+      .modal-body { padding: 24px 20px; }
+      .modal img { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Savoria <span>Bistro</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="menu-page.html">Menu</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="blog.html" style="color:var(--rust);font-weight:700;">Blog</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="index.html#order" class="admin-link">Order Online</a></li>
+  </ul>
+</nav>
+
+<div class="blog-hero">
+  <div class="label">Stories from our kitchen</div>
+  <h1>The Savoria Journal</h1>
+  <p>Recipes, behind-the-scenes stories, seasonal updates, and the local growers who make Savoria special.</p>
+</div>
+
+<section class="blog-section">
+  <div class="blog-grid" id="blogGrid"></div>
+  <div class="empty-state" id="emptyState" style="display:none">
+    📝 No blog posts published yet. Head over to the <a href="admin.html" style="color:var(--rust);font-weight:600;">Admin Panel</a> to publish your first journal story!
+  </div>
+</section>
+
+<!-- MODAL FOR FULL ARTICLE -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="close-btn" title="Close" onclick="closeModal(null, true)">×</button>
+    <img id="modalImg" src="" alt="Post cover" />
+    <div class="modal-body">
+      <h2 id="modalTitle"></h2>
+      <div class="meta" id="modalMeta"></div>
+      <p id="modalContent"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 Savoria Bistro &mdash; <a href="index.html">Back to Home</a> &bull; <a href="admin.html" style="color:#555">Staff Access</a>
+</footer>
+
+<script>
+  const defaults = [
+    {
+      title: 'Our New Autumn Menu Is Here',
+      author: 'Chef Marco',
+      date: 'Sep 1, 2026',
+      thumb: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&auto=format&fit=crop',
+      content: 'We are thrilled to unveil our autumn menu, featuring the finest seasonal produce harvested from local farms within 50 miles.\n\nEvery dish has been crafted to celebrate the warmth and richness of the harvest season. From our slow-braised lamb tagliatelle to our pumpkin velouté and cinnamon-roasted figs, this menu is a love letter to autumn.\n\nStop by this weekend to experience our curated autumn tasting flight, thoughtfully paired with regional wines by sommelier Elena Rossi.'
+    },
+    {
+      title: 'Behind the Scenes: Wood-Fired Oven',
+      author: 'Elena Rossi',
+      date: 'Aug 20, 2026',
+      thumb: 'https://images.unsplash.com/photo-1481833761820-0509d3217039?w=800&auto=format&fit=crop',
+      content: 'Our wood-fired oven is the beating heart of Savoria. Reaching blistering temperatures of 450°C, it creates a unique char and smokiness that no conventional oven can replicate.\n\nEvery morning at 6 AM, Chef Marco lights the fire using locally sourced seasoned oak. We bake our morning sourdough loaves while the stones are at peak heat, and as the embers mellow throughout the afternoon, we roast marrow bones and slow-simmer lamb reductions in cast-iron pots.\n\nHere is a look at how we use traditional hearth cooking every single day to bring genuine warmth to your plate.'
+    },
+    {
+      title: 'Meet Our Farmers: The Rossi Orchard',
+      author: 'Chef Marco',
+      date: 'Aug 5, 2026',
+      thumb: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop',
+      content: 'Every ingredient at Savoria has a story. We partner with 12 local farms within 50 miles to source the freshest seasonal produce and organic dairy.\n\nThis month, we shine a spotlight on the Rossi family orchard, who have been cultivating heritage apple and pear varieties for three generations without synthetic pesticides.\n\nVisit us this week to taste their harvest in our new seasonal dessert and craft cocktails.'
+    }
+  ];
+
+  function getPosts() {
+    try {
+      const raw = localStorage.getItem('savoria_blog');
+      return raw ? JSON.parse(raw) : defaults;
+    } catch (e) {
+      return defaults;
+    }
+  }
+
+  function openModal(i) {
+    const posts = getPosts();
+    const p = posts[i];
+    if (!p) return;
+    document.getElementById('modalImg').src = p.thumb || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800';
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalMeta').textContent = `By ${p.author} • ${p.date}`;
+    document.getElementById('modalContent').textContent = p.content;
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e, force) {
+    if (force || e.target === document.getElementById('modalOverlay')) {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Keyboard escape closes modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal(null, true);
+  });
+
+  function render() {
+    const posts = getPosts();
+    const grid = document.getElementById('blogGrid');
+    const emptyState = document.getElementById('emptyState');
+    if (!posts || !posts.length) {
+      grid.innerHTML = '';
+      emptyState.style.display = 'block';
+      return;
+    }
+    emptyState.style.display = 'none';
+    grid.innerHTML = posts.map((p, i) => `
+      <article class="blog-card" onclick="openModal(${i})">
+        <div class="blog-card-img-wrap">
+          <img src="${p.thumb || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600'}" alt="${p.title}" onerror="this.src='https://placehold.co/600x400?text=Food+Story'" />
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-meta">
+            <div class="author-dot">${(p.author || 'S').charAt(0).toUpperCase()}</div>
+            <div class="meta-text">${p.author || 'Savoria'} &bull; ${p.date || 'Recent'}</div>
+          </div>
+          <h3>${p.title}</h3>
+          <p>${p.content.substring(0, 115)}...</p>
+          <span class="read-more">Read full story &rarr;</span>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  // Live auto-update when navigating back or storage changes
+  window.addEventListener('pageshow', render);
+  window.addEventListener('storage', render);
+  document.addEventListener('DOMContentLoaded', render);
+</script>
+</body>
+</html>

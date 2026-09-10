@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery | Savoria Bistro</title>
+    <meta name="description" content="View the photo gallery of Savoria Bistro showcasing our culinary creations, hearthside kitchen, candlelit dining rooms, and lively evenings." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrapper">
+        <a href="index.html" class="brand-logo" id="brandLogo">
+          Savoria <span>Bistro</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link" id="navHome">Home</a></li>
+            <li><a href="about.html" class="nav-link" id="navAbout">About Us</a></li>
+            <li><a href="menu.html" class="nav-link" id="navMenu">Menu</a></li>
+            <li><a href="gallery.html" class="nav-link active" id="navGallery">Gallery</a></li>
+            <li><a href="contact.html" class="nav-link" id="navContact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main style="padding-top: var(--nav-height);">
+      <!-- Banner -->
+      <section style="background-color: var(--color-dark); color: #ffffff; padding: 4.5rem 1.5rem; text-align: center;">
+        <div class="container">
+          <span class="section-badge" style="background-color: rgba(255, 255, 255, 0.12); color: #f7d4bd;">Visual Journey</span>
+          <h1 style="color: #ffffff; font-size: clamp(2.4rem, 5vw, 3.5rem); margin-top: 0.5rem;">The Savoria Gallery</h1>
+          <p style="color: #d1c8c0; max-width: 620px; margin: 1rem auto 0 auto; font-size: 1.1rem;">
+            A curated visual story of our candlelit dining rooms, scratch kitchen craftsmanship, and unforgettable evenings.
+          </p>
+        </div>
+      </section>
+
+      <!-- 9 Masonry Photos Gallery Section -->
+      <section class="section-padding gallery-section" id="gallery">
+        <div class="container">
+          <div class="gallery-grid" id="galleryGrid">
+            <!-- Photo 1 -->
+            <div class="gallery-item" id="galleryItem1">
+              <img 
+                src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" 
+                alt="Culinary plating masterpiece" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Culinary Art</span>
+                <span class="gallery-caption">Seasonal Chef's Tasting Plate</span>
+              </div>
+            </div>
+
+            <!-- Photo 2 (Tall item for masonry rhythm) -->
+            <div class="gallery-item tall" id="galleryItem2">
+              <img 
+                src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80" 
+                alt="Sommelier pouring red wine into crystal glass" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Cellar Selection</span>
+                <span class="gallery-caption">Vintage Reserve Wine Pairing</span>
+              </div>
+            </div>
+
+            <!-- Photo 3 -->
+            <div class="gallery-item" id="galleryItem3">
+              <img 
+                src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" 
+                alt="Wood-fired sourdough pizza from our stone oven" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Wood-Fired Hearth</span>
+                <span class="gallery-caption">Crisp 72-Hour Fermented Crust</span>
+              </div>
+            </div>
+
+            <!-- Photo 4 -->
+            <div class="gallery-item" id="galleryItem4">
+              <img 
+                src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80" 
+                alt="Decadent chocolate dessert with berry coulis" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Pastry Atelier</span>
+                <span class="gallery-caption">Dark Ganache Tart</span>
+              </div>
+            </div>
+
+            <!-- Photo 5 -->
+            <div class="gallery-item" id="galleryItem5">
+              <img 
+                src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=800&q=80" 
+                alt="Intimate candlelit dining room" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Sanctuary</span>
+                <span class="gallery-caption">Candlelit Evening Tables</span>
+              </div>
+            </div>
+
+            <!-- Photo 6 -->
+            <div class="gallery-item" id="galleryItem6">
+              <img 
+                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" 
+                alt="Artisan cocktail mixologist craft" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Cocktail Craft</span>
+                <span class="gallery-caption">Smoked Bourbon Old Fashioned</span>
+              </div>
+            </div>
+
+            <!-- Photo 7 -->
+            <div class="gallery-item" id="galleryItem7">
+              <img 
+                src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?auto=format&fit=crop&w=800&q=80" 
+                alt="Chefs collaborating at the culinary pass" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Kitchen Brigade</span>
+                <span class="gallery-caption">Precision at the Pass</span>
+              </div>
+            </div>
+
+            <!-- Photo 8 -->
+            <div class="gallery-item" id="galleryItem8">
+              <img 
+                src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" 
+                alt="Fresh artisanal pasta being hand-cut" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Scratch Kitchen</span>
+                <span class="gallery-caption">Daily Hand-Cut Tagliatelle</span>
+              </div>
+            </div>
+
+            <!-- Photo 9 -->
+            <div class="gallery-item" id="galleryItem9">
+              <img 
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" 
+                alt="Bustling evening atmosphere in the main bistro" 
+                loading="lazy"
+              />
+              <div class="gallery-overlay">
+                <span class="gallery-tag">Hospitality</span>
+                <span class="gallery-caption">Celebrations & Gatherings</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="siteFooter">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="brand-logo">Savoria <span>Bistro</span></a>
+            <p>Handcrafted dining celebrating heritage recipes, organic local produce, and warm hospitality.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Explore</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="menu.html">Seasonal Menu</a></li>
+              <li><a href="gallery.html">Photo Gallery</a></li>
+              <li><a href="contact.html">Contact & Map</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Hours</h4>
+            <ul class="footer-info-list">
+              <li><div><strong>Mon - Thu</strong><br />5:00 PM – 10:00 PM</div></li>
+              <li><div><strong>Fri - Sat</strong><br />4:30 PM – 11:00 PM</div></li>
+              <li><div><strong>Sunday Brunch</strong><br />10:30 AM – 3:00 PM</div></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul class="footer-info-list">
+              <li><span>742 Evergreen Terrace, Culinary District, CA 94558</span></li>
+              <li><span>+91 98765 43210</span></li>
+              <li><span>hello@savoriabistro.com</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Savoria Bistro. Handcrafted with semantic HTML, modern CSS, and vanilla JavaScript.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

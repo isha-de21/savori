@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Savoria Admin Panel — Restaurant Management</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --rust: #c0624a;
+      --rust-dark: #a84f38;
+      --dark: #1a1a1a;
+      --cream: #faf6ee;
+      --sidebar: #1e1e2e;
+      --purple: #6a1b9a;
+      --purple-dark: #511277;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f0f2f5; color: #222;
+    }
+
+    /* ─── LOGIN SCREEN ─── */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: var(--sidebar); padding: 24px;
+    }
+    .login-card {
+      background: white; border-radius: 16px; padding: 44px 38px;
+      width: 100%; max-width: 420px; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    .login-card .logo { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
+    .login-card .logo span { color: var(--rust); }
+    .login-card > p { color: #777; font-size: 0.92rem; margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; text-align: left; }
+    .form-group label { display: block; font-size: 0.85rem; color: #444; margin-bottom: 6px; font-weight: 600; }
+    .form-group input {
+      width: 100%; padding: 12px 16px; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit;
+    }
+    .form-group input:focus { border-color: var(--rust); box-shadow: 0 0 0 3px rgba(192,98,74,0.15); }
+    .login-btn {
+      width: 100%; background: var(--rust); color: white;
+      padding: 13px; border: none; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .login-btn:hover { background: var(--rust-dark); }
+    .login-btn:active { transform: scale(0.99); }
+    .login-hint {
+      margin-top: 18px; font-size: 0.85rem; color: #666; background: #fafafa;
+      padding: 10px 14px; border-radius: 6px; border: 1px dashed #ddd;
+    }
+    .err { color: #d32f2f; font-size: 0.86rem; margin-top: 12px; display: none; background: #ffebee; padding: 8px; border-radius: 6px; }
+
+    /* ─── DASHBOARD LAYOUT ─── */
+    #dashboard { display: none; min-height: 100vh; }
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0; width: 235px;
+      background: var(--sidebar); color: white; padding: 28px 0;
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar .brand {
+      padding: 0 24px 24px; font-size: 1.25rem; font-weight: 700;
+      font-family: 'Playfair Display', Georgia, serif;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar .brand span { color: var(--rust); }
+    .sidebar nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 24px; cursor: pointer; transition: background 0.15s, color 0.15s;
+      font-size: 0.9rem; color: #bbb; font-weight: 500;
+    }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.08); color: white; }
+    .nav-item.active { border-left: 4px solid var(--rust); background: rgba(192,98,74,0.18); }
+    
+    .sb-bottom { padding: 18px; display: flex; flex-direction: column; gap: 9px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .sb-btn {
+      padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.86rem;
+      text-align: center; text-decoration: none; display: block; font-weight: 600;
+      transition: background 0.2s, opacity 0.2s;
+    }
+    .sb-btn.view { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; }
+    .sb-btn.view:hover { background: rgba(255,255,255,0.16); }
+    .sb-btn.menu-card-btn { background: var(--purple); color: white; }
+    .sb-btn.menu-card-btn:hover { background: var(--purple-dark); }
+    .sb-btn.logout { background: rgba(192,98,74,0.2); border: 1px solid var(--rust); color: #ff9e87; }
+    .sb-btn.logout:hover { background: var(--rust); color: white; }
+
+    .main { margin-left: 235px; padding: 32px 40px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+    }
+    .topbar h1 { font-size: 1.55rem; color: var(--dark); font-weight: 700; }
+    .live-badge {
+      background: #e8f5e9; color: #2e7d32; padding: 6px 16px; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .live-dot { width: 8px; height: 8px; background: #2e7d32; border-radius: 50%; }
+
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeIn 0.2s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── STAT CARDS ─── */
+    .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 28px; }
+    .stat-card {
+      background: white; border-radius: 12px; padding: 22px 24px;
+      border-left: 4px solid var(--rust); box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .stat-card .num { font-size: 2.2rem; font-weight: 700; color: var(--rust); line-height: 1; }
+    .stat-card .label { font-size: 0.86rem; color: #777; margin-top: 6px; font-weight: 500; }
+
+    /* ─── FORM & CARDS ─── */
+    .card {
+      background: white; border-radius: 12px; padding: 28px 32px;
+      margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid #e8e8e8;
+    }
+    .card h2 {
+      font-size: 1.15rem; margin-bottom: 20px; color: var(--dark);
+      border-bottom: 1px solid #f0f0f0; padding-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 0.84rem; color: #444; margin-bottom: 6px; font-weight: 600; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 11px 14px; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 0.92rem; outline: none; font-family: inherit;
+      background: #fafafa; transition: border 0.2s, background 0.2s;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--rust); background: white; box-shadow: 0 0 0 3px rgba(192,98,74,0.12);
+    }
+    .field textarea { resize: vertical; min-height: 85px; line-height: 1.6; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    .save-btn {
+      background: var(--rust); color: white; padding: 11px 26px;
+      border: none; border-radius: 8px; cursor: pointer; font-size: 0.92rem;
+      font-weight: 600; transition: background 0.2s, transform 0.1s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .save-btn:hover { background: var(--rust-dark); }
+    .save-btn:active { transform: scale(0.98); }
+    .save-btn.purple { background: var(--purple); }
+    .save-btn.purple:hover { background: var(--purple-dark); }
+    .success-msg {
+      color: #2e7d32; font-size: 0.86rem; margin-top: 10px; display: none;
+      background: #e8f5e9; padding: 8px 14px; border-radius: 6px; font-weight: 500;
+    }
+
+    /* ─── 1. DRAG & DROP PHOTO UPLOAD AREA ─── */
+    .upload-area {
+      border: 2px dashed #ccd0d5; border-radius: 12px; padding: 24px 20px;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      position: relative; background: #fafafa;
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--rust); background: #fdf8f7;
+    }
+    .upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-area .up-icon { font-size: 2.2rem; margin-bottom: 6px; }
+    .upload-area p { font-size: 0.88rem; color: #777; line-height: 1.5; }
+    .upload-area strong { color: var(--rust); }
+    .preview-box {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-top: 14px;
+    }
+    .thumb-preview {
+      width: 100px; height: 75px; object-fit: cover; border-radius: 8px;
+      display: none; border: 2px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .preview-label { font-size: 0.82rem; color: #2e7d32; font-weight: 600; display: none; }
+
+    /* ─── 2. MENU TABLE WITH EDIT & DELETE ─── */
+    .menu-table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #f8f8f8; text-align: left; padding: 12px 14px;
+      font-size: 0.78rem; color: #777; text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 2px solid #eee;
+    }
+    td { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; vertical-align: middle; }
+    tr:hover td { background: #fafafa; }
+    .td-img { width: 56px; height: 44px; object-fit: cover; border-radius: 6px; display: block; }
+    .tag { background: #fdf0ed; color: var(--rust); padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; display: inline-block; }
+    .act-btn {
+      padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer;
+      font-size: 0.8rem; font-weight: 600; transition: opacity 0.15s, transform 0.1s;
+    }
+    .act-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .edit-btn { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+    .del-btn { background: #fdecea; color: #c62828; border: 1px solid #ffcdd2; }
+
+    /* ─── GALLERY ADMIN ─── */
+    .gallery-grid-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-top: 16px; }
+    .gallery-item { position: relative; border-radius: 8px; overflow: hidden; background: #eee; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+    .gallery-item img { width: 100%; height: 120px; object-fit: cover; display: block; }
+    .gallery-item .del {
+      position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.7);
+      color: white; border: none; border-radius: 50%; width: 26px; height: 26px;
+      cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .gallery-item .del:hover { background: #d32f2f; transform: scale(1.1); }
+
+    /* ─── BLOG ADMIN ─── */
+    .blog-thumb { width: 56px; height: 44px; object-fit: cover; border-radius: 6px; display: block; }
+
+    /* ─── RESERVATIONS / TABLE BOOKINGS ─── */
+    .status-badge {
+      padding: 4px 10px; border-radius: 999px; font-size: 0.76rem;
+      font-weight: 700; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .status-Pending { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+    .status-Confirmed { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+    .status-Cancelled { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+    .status-select {
+      padding: 5px 8px; border-radius: 6px; font-size: 0.8rem;
+      border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600;
+    }
+    .wa-btn-sm {
+      background: #25D366; color: white; padding: 5px 10px; border-radius: 6px;
+      font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center;
+      gap: 5px; font-weight: 600; transition: background 0.2s;
+    }
+    .wa-btn-sm:hover { background: #1ebc59; color: white; }
+    .call-btn-sm {
+      background: #f0f4f8; color: #1e3a8a; padding: 5px 10px; border-radius: 6px;
+      font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center;
+      gap: 4px; font-weight: 600; border: 1px solid #cbd5e1;
+    }
+    .call-btn-sm:hover { background: #e2e8f0; }
+    .resv-filter-btn {
+      padding: 7px 16px; border-radius: 999px; border: 1px solid #ddd;
+      background: white; cursor: pointer; font-size: 0.84rem; font-weight: 600; color: #555;
+      transition: all 0.2s;
+    }
+    .resv-filter-btn.active, .resv-filter-btn:hover {
+      background: var(--rust); color: white; border-color: var(--rust);
+    }
+
+    /* ─── 3. PHYSICAL MENU CARD MODAL ─── */
+    .overlay {
+      display: none; position: fixed; inset: 0; background: rgba(18, 18, 24, 0.82);
+      z-index: 1000; overflow-y: auto; padding: 40px 16px; backdrop-filter: blur(5px);
+    }
+    .overlay.open { display: flex; justify-content: center; }
+    .menu-card {
+      background: #faf6ee; border-radius: 16px; width: 100%; max-width: 900px;
+      padding: 56px 52px; position: relative; font-family: 'Playfair Display', Georgia, serif;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.45); border: 2px solid #e2d6c1;
+    }
+    .menu-card-close {
+      position: absolute; top: 20px; right: 24px; background: #eee;
+      border: none; font-size: 1.4rem; cursor: pointer; color: #555;
+      width: 38px; height: 38px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; transition: background 0.2s, color 0.2s;
+    }
+    .menu-card-close:hover { background: #d32f2f; color: white; }
+    .mc-header { text-align: center; margin-bottom: 40px; }
+    .mc-header .logo-text { font-size: 2.5rem; font-weight: 700; letter-spacing: 0.5px; color: #222; }
+    .mc-header .logo-text span { color: var(--rust); }
+    .mc-header .divider { display: flex; align-items: center; gap: 16px; margin: 12px auto; max-width: 380px; }
+    .mc-header .divider hr { flex: 1; border: none; border-top: 1px solid #c8b89a; }
+    .mc-header .leaf { color: var(--rust); font-size: 1.1rem; }
+    .mc-header p {
+      font-size: 0.86rem; color: #777; font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      letter-spacing: 3px; text-transform: uppercase; font-weight: 600;
+    }
+    .mc-category { margin-bottom: 40px; }
+    .mc-category h3 {
+      font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--rust); font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 12px; font-weight: 700;
+    }
+    .mc-category h3::after { content: ''; flex: 1; border-top: 1px solid #dfd5c4; }
+    
+    .mc-items-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px;
+    }
+    .mc-item { display: flex; align-items: flex-start; gap: 14px; }
+    .mc-item img { width: 72px; height: 56px; object-fit: cover; border-radius: 6px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .mc-item-info { flex: 1; min-width: 0; }
+    .mc-item-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .mc-item-row h4 { font-size: 1.05rem; font-weight: 700; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mc-item-row .mc-price { color: var(--rust); font-weight: 700; font-family: 'Plus Jakarta Sans', Arial, sans-serif; font-size: 1.02rem; white-space: nowrap; }
+    .mc-item-info p {
+      font-size: 0.84rem; color: #777; font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      margin-top: 3px; line-height: 1.5;
+    }
+    .mc-dots { flex: 1; border-bottom: 1.5px dotted #c8b89a; margin: 0 8px 4px; min-width: 20px; }
+    
+    .mc-footer { text-align: center; margin-top: 36px; border-top: 1px solid #dfd5c4; padding-top: 24px; }
+    .mc-footer p { font-size: 0.85rem; color: #888; font-family: 'Plus Jakarta Sans', Arial, sans-serif; margin-bottom: 14px; }
+    .print-btn {
+      background: var(--rust); color: white; border: none; padding: 12px 30px;
+      border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      font-weight: 600; display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .print-btn:hover { background: var(--rust-dark); transform: translateY(-1px); }
+
+    /* ─── 4. EDIT MENU ITEM MODAL ─── */
+    .edit-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      z-index: 900; align-items: center; justify-content: center; padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .edit-overlay.open { display: flex; }
+    .edit-modal {
+      background: white; border-radius: 14px; padding: 32px 36px;
+      width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: scaleUp 0.15s ease-out;
+    }
+    @keyframes scaleUp { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .edit-modal h2 { font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+    .edit-modal-footer { display: flex; gap: 12px; margin-top: 22px; justify-content: flex-end; }
+    .cancel-btn {
+      background: #f0f0f0; color: #555; padding: 11px 24px;
+      border: 1px solid #ddd; border-radius: 8px; cursor: pointer;
+      font-size: 0.9rem; font-weight: 600;
+    }
+    .cancel-btn:hover { background: #e4e4e4; }
+
+    /* ─── PRINT MEDIA QUERY ─── */
+    @media print {
+      body > *:not(.overlay) { display: none !important; }
+      .overlay {
+        display: block !important; position: static; background: none;
+        padding: 0; width: 100%; height: auto;
+      }
+      .menu-card {
+        box-shadow: none; border-radius: 0; border: none;
+        padding: 20px 10px; max-width: 100%; width: 100%;
+      }
+      .menu-card-close, .print-btn { display: none !important; }
+      .mc-items-grid { grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { width: 210px; }
+      .main { margin-left: 210px; padding: 24px 20px; }
+      .mc-items-grid { grid-template-columns: 1fr; }
+      .row2, .row3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .sidebar { position: static; width: 100%; min-height: auto; }
+      .main { margin-left: 0; padding: 20px 16px; }
+      .menu-card { padding: 32px 20px; }
+      input, select, textarea, .form-group input, .field input, .field select, .field textarea {
+        font-size: 16px !important;
+        min-height: 44px;
+      }
+      .save-btn, .login-btn, .print-btn, .nav-item {
+        min-height: 44px;
+        touch-action: manipulation;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="logo">Savoria <span>Admin</span></div>
+    <p>Sign in to manage your restaurant website</p>
+    <div class="form-group">
+      <label for="uname">Username</label>
+      <input type="text" id="uname" placeholder="admin" autocomplete="username" />
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password</label>
+      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="err" id="loginErr">Invalid credentials. Try <strong>admin</strong> / <strong>admin123</strong></div>
+    <div class="login-hint">Demo Credentials: <strong>admin</strong> / <strong>admin123</strong></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <aside class="sidebar">
+    <div class="brand">Savoria <span>Admin</span></div>
+    <nav>
+      <div class="nav-item active" onclick="showPanel('overview', this)">📊 Overview</div>
+      <div class="nav-item" onclick="showPanel('reservations', this)" style="position:relative;">
+        <span>📅 Table Bookings</span>
+        <span id="resvCountBadge" style="margin-left:auto;background:var(--rust);color:white;padding:2px 8px;border-radius:999px;font-size:0.75rem;font-weight:700;">0</span>
+      </div>
+      <div class="nav-item" onclick="showPanel('info', this)">🏠 Restaurant Info</div>
+      <div class="nav-item" onclick="showPanel('menu', this)">🍽️ Menu Items</div>
+      <div class="nav-item" onclick="showPanel('gallery', this)">🖼️ Gallery</div>
+      <div class="nav-item" onclick="showPanel('blog', this)">📝 Blog Posts</div>
+      <div class="nav-item" onclick="showPanel('contact', this)">📍 Contact &amp; Hours</div>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-btn menu-card-btn" onclick="openMenuCard()">📋 View Menu Card</button>
+      <a href="index.html" target="_blank" class="sb-btn view">🌐 View Homepage</a>
+      <div class="sb-btn logout" onclick="logout()">🚪 Sign Out</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="panelTitle">Overview</h1>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="save-btn purple" style="padding:8px 18px;font-size:0.85rem" onclick="openMenuCard()">
+          📋 View Menu Card
+        </button>
+        <span class="live-badge"><span class="live-dot"></span> Live Site Synchronized</span>
+      </div>
+    </div>
+
+    <!-- 1. OVERVIEW PANEL -->
+    <div class="panel active" id="panel-overview">
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="num" id="s-menu">6</div>
+          <div class="label">Menu Items</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="s-gallery">9</div>
+          <div class="label">Gallery Photos</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="s-blog">3</div>
+          <div class="label">Blog Posts</div>
+        </div>
+        <div class="stat-card" style="border-left-color:#00796b;">
+          <div class="num" id="s-resv" style="color:#00796b">0</div>
+          <div class="label">Table Bookings</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="s-rating">4.9★</div>
+          <div class="label">Guest Rating</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🚀 Quick Actions</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="save-btn" style="background:#00796b" onclick="showPanel('reservations', document.querySelectorAll('.nav-item')[1])">📅 View Table Bookings</button>
+          <button class="save-btn" onclick="showPanel('menu', document.querySelectorAll('.nav-item')[3])">➕ Add Menu Item</button>
+          <button class="save-btn purple" onclick="openMenuCard()">📋 View Menu Card (Printable)</button>
+          <button class="save-btn" style="background:#555" onclick="showPanel('gallery', document.querySelectorAll('.nav-item')[4])">🖼️ Upload Gallery Photos</button>
+          <button class="save-btn" style="background:#2e7d32" onclick="showPanel('blog', document.querySelectorAll('.nav-item')[5])">✍️ Write Blog Post</button>
+          <a href="index.html" target="_blank" style="text-decoration:none;"><button class="save-btn" style="background:#1565c0">🌐 View Live Website</button></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>ℹ️ Instant Client Demo Flow</h2>
+        <p style="color:#555;font-size:0.92rem;line-height:1.7;margin-bottom:8px;">
+          1. Go to <strong>Menu Items</strong> &rarr; Drop an image &rarr; Add a new dish.<br/>
+          2. Click <strong>View Menu Card</strong> &rarr; Review the physical dining card &rarr; Click <strong>Print Menu</strong>.<br/>
+          3. Open the homepage &rarr; Notice all changes synced immediately via <code>localStorage</code>!
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. TABLE BOOKINGS PANEL -->
+    <div class="panel" id="panel-reservations">
+      <div class="card">
+        <h2>
+          <span>📅 Guest Table Bookings</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="save-btn" style="padding:8px 16px;font-size:0.84rem;background:#00796b;" onclick="seedDemoReservations()">🌱 Seed Demo Bookings</button>
+            <button class="save-btn" style="padding:8px 16px;font-size:0.84rem;background:#757575;" onclick="clearAllReservations()">🗑️ Clear All</button>
+          </div>
+        </h2>
+
+        <!-- Status & Type Filter + Search -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #eee;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="resv-filter-btn active" onclick="filterReservations('all', this)">All (<span id="rf-all">0</span>)</button>
+            <button class="resv-filter-btn" onclick="filterReservations('Pending', this)">⏳ Pending (<span id="rf-pending">0</span>)</button>
+            <button class="resv-filter-btn" onclick="filterReservations('Confirmed', this)">✅ Confirmed (<span id="rf-confirmed">0</span>)</button>
+            <button class="resv-filter-btn" onclick="filterReservations('Reserve Table', this)">📅 Tables (<span id="rf-tables">0</span>)</button>
+            <button class="resv-filter-btn" onclick="filterReservations('Dine In Order', this)">🍽️ Dine In (<span id="rf-dinein">0</span>)</button>
+            <button class="resv-filter-btn" onclick="filterReservations('Pickup Order', this)">🥡 Pickup (<span id="rf-pickup">0</span>)</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="text" id="resvSearch" placeholder="Search guest, items or phone..." oninput="renderReservationsTable()" style="padding:8px 14px;border:1px solid #ddd;border-radius:6px;font-size:0.85rem;min-width:240px;outline:none;" />
+          </div>
+        </div>
+
+        <div class="menu-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Guest</th>
+                <th>Contact</th>
+                <th>Date &amp; Time</th>
+                <th>Party &amp; Occasion</th>
+                <th>Special Requests</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reservationsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. RESTAURANT INFO PANEL -->
+    <div class="panel" id="panel-info">
+      <div class="card">
+        <h2>Restaurant Identity &amp; Heritage</h2>
+        <div class="row2">
+          <div class="field"><label for="rName">Restaurant Name</label><input type="text" id="rName" /></div>
+          <div class="field"><label for="rTagline">Tagline / Hero Badge</label><input type="text" id="rTagline" /></div>
+        </div>
+        <div class="field"><label for="rAbout">About Us Story</label><textarea id="rAbout"></textarea></div>
+        <div class="row2">
+          <div class="field"><label for="rYear">Founded Year</label><input type="text" id="rYear" /></div>
+          <div class="field"><label for="rRating">Guest Rating</label><input type="text" id="rRating" /></div>
+        </div>
+        <button class="save-btn" onclick="saveInfo()">💾 Save Changes</button>
+        <div class="success-msg" id="infoMsg">✅ Restaurant info saved!</div>
+      </div>
+    </div>
+
+    <!-- 3. MENU PANEL -->
+    <div class="panel" id="panel-menu">
+      <div class="card">
+        <h2>
+          <span>Add New Menu Item</span>
+          <button class="save-btn purple" style="font-size:0.82rem;padding:7px 16px" onclick="openMenuCard()">
+            📋 View Menu Card
+          </button>
+        </h2>
+
+        <div class="row3">
+          <div class="field">
+            <label for="mName">Dish / Beverage Name</label>
+            <input type="text" id="mName" placeholder="e.g. Truffle Wild Mushroom Tagliatelle" />
+          </div>
+          <div class="field">
+            <label for="mCat">Category</label>
+            <select id="mCat">
+              <option value="Starters">Starters</option>
+              <option value="Mains">Mains</option>
+              <option value="Desserts">Desserts</option>
+              <option value="Drinks">Drinks</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mPrice">Price (₹)</label>
+            <input type="number" id="mPrice" placeholder="550" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="mDesc">Description</label>
+          <textarea id="mDesc" rows="2" placeholder="Ingredients, culinary technique, allergens..."></textarea>
+        </div>
+
+        <!-- PHOTO UPLOAD BOX (DRAG & DROP / CLICK) -->
+        <div class="field">
+          <label>Dish Photo (Drag &amp; Drop or Click to Upload)</label>
+          <div class="upload-area" id="mDropArea">
+            <input type="file" id="mPhoto" accept="image/*" />
+            <div class="up-icon">📷</div>
+            <p>Drag &amp; drop an image here, or <strong>click to browse</strong><br/>
+            <span style="font-size:0.78rem;color:#888;">Stored as Base64 in localStorage &bull; JPG, PNG, WEBP</span></p>
+            <div class="preview-box">
+              <img id="mPhotoPreview" class="thumb-preview" src="" alt="Selected Photo" />
+              <span id="mPhotoLabel" class="preview-label">✅ Ready to save</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="save-btn" onclick="addMenuItem()">➕ Add Menu Item</button>
+        <div class="success-msg" id="menuMsg">✅ Dish added successfully to live menu!</div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <span>Active Menu Items</span>
+          <button class="save-btn purple" style="font-size:0.82rem;padding:7px 16px" onclick="openMenuCard()">
+            📋 View Menu Card
+          </button>
+        </h2>
+        <div class="menu-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="menuTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. GALLERY PANEL -->
+    <div class="panel" id="panel-gallery">
+      <div class="card">
+        <h2>Upload Gallery Photos</h2>
+        <div class="upload-area" id="gDropArea">
+          <input type="file" id="gFiles" accept="image/*" multiple />
+          <div class="up-icon">🖼️</div>
+          <p>Drag &amp; drop photos here, or <strong>click to select multiple</strong><br/>
+          <span style="font-size:0.78rem;color:#888;">Multiple photo upload supported &bull; Stored as Base64</span></p>
+        </div>
+        <div class="success-msg" id="galleryMsg" style="margin-top:10px">✅ Photos added to gallery!</div>
+
+        <h3 style="font-size:0.95rem;color:#666;margin:24px 0 12px;">Active Gallery Photos (Click ✕ to remove)</h3>
+        <div class="gallery-grid-admin" id="galleryGrid"></div>
+      </div>
+    </div>
+
+    <!-- 5. BLOG PANEL -->
+    <div class="panel" id="panel-blog">
+      <div class="card">
+        <h2>Write a Blog Post</h2>
+        <div class="row2">
+          <div class="field"><label for="bTitle">Post Title</label><input type="text" id="bTitle" placeholder="e.g. Secrets of Wood-Fired Sourdough" /></div>
+          <div class="field"><label for="bAuthor">Author</label><input type="text" id="bAuthor" placeholder="Chef Marco" /></div>
+        </div>
+
+        <!-- BLOG COVER PHOTO UPLOAD -->
+        <div class="field">
+          <label>Cover Photo (Drag &amp; Drop or Click)</label>
+          <div class="upload-area" id="bDropArea">
+            <input type="file" id="bThumb" accept="image/*" />
+            <div class="up-icon">📸</div>
+            <p>Drag &amp; drop cover photo or <strong>click to upload</strong></p>
+            <div class="preview-box">
+              <img id="bThumbPreview" class="thumb-preview" src="" alt="Blog Cover Preview" />
+              <span id="bThumbLabel" class="preview-label">✅ Cover ready</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field"><label for="bContent">Content</label><textarea id="bContent" rows="5" placeholder="Write your full story or announcement..."></textarea></div>
+        <button class="save-btn" onclick="addBlogPost()">🚀 Publish Post</button>
+        <div class="success-msg" id="blogMsg">✅ Post published!</div>
+      </div>
+
+      <div class="card">
+        <h2>Published Journal Posts</h2>
+        <table>
+          <thead><tr><th>Cover</th><th>Title</th><th>Author</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="blogTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6. CONTACT & HOURS PANEL -->
+    <div class="panel" id="panel-contact">
+      <div class="card">
+        <h2>Contact &amp; Hours</h2>
+        <div class="row2">
+          <div class="field"><label for="cAddr">Address</label><input type="text" id="cAddr" /></div>
+          <div class="field"><label for="cEmail">Email</label><input type="text" id="cEmail" /></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="cPhone">Phone / WhatsApp</label><input type="text" id="cPhone" /></div>
+          <div class="field"><label for="cInsta">Instagram Handle</label><input type="text" id="cInsta" placeholder="@savoriabistro" /></div>
+        </div>
+        <h3 style="margin:20px 0 12px;font-size:0.95rem;">Opening Hours</h3>
+        <div class="row3">
+          <div class="field"><label for="h1">Mon – Thu</label><input type="text" id="h1" /></div>
+          <div class="field"><label for="h2">Fri – Sat</label><input type="text" id="h2" /></div>
+          <div class="field"><label for="h3">Sunday Brunch</label><input type="text" id="h3" /></div>
+        </div>
+        <button class="save-btn" onclick="saveContact()">💾 Save Changes</button>
+        <div class="success-msg" id="contactMsg">✅ Contact &amp; hours saved!</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ─── 3. PHYSICAL MENU CARD VIEW MODAL ─── -->
+<div class="overlay" id="menuCardOverlay">
+  <div class="menu-card">
+    <button class="menu-card-close" onclick="closeMenuCard()" title="Close Menu Card">×</button>
+    
+    <div class="mc-header">
+      <div class="logo-text">Savoria <span>Bistro</span></div>
+      <div class="divider"><hr /><span class="leaf">✦</span><hr /></div>
+      <p id="mcTagline">Seasonal Artisanal Menu — Crafted Daily</p>
+    </div>
+
+    <div id="menuCardBody"></div>
+
+    <div class="mc-footer">
+      <p>All dishes prepared fresh to order. Please inform your server of any dietary preferences or allergies.</p>
+      <button class="print-btn" onclick="window.print()">🖨️ Print Menu / Save as PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 2. EDIT MENU ITEM MODAL ─── -->
+<div class="edit-overlay" id="editOverlay">
+  <div class="edit-modal">
+    <h2>✏️ Edit Menu Item</h2>
+    <input type="hidden" id="editIdx" />
+    
+    <div class="row2">
+      <div class="field">
+        <label for="eName">Dish Name</label>
+        <input type="text" id="eName" />
+      </div>
+      <div class="field">
+        <label for="eCat">Category</label>
+        <select id="eCat">
+          <option value="Starters">Starters</option>
+          <option value="Mains">Mains</option>
+          <option value="Desserts">Desserts</option>
+          <option value="Drinks">Drinks</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="ePrice">Price (₹)</label>
+      <input type="number" id="ePrice" />
+    </div>
+
+    <div class="field">
+      <label for="eDesc">Description</label>
+      <textarea id="eDesc" rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Replace Photo (Drag &amp; drop or click to upload)</label>
+      <div class="upload-area" id="eDropArea" style="padding:16px;">
+        <input type="file" id="ePhoto" accept="image/*" />
+        <p style="margin-bottom:4px;">Drag &amp; drop new photo or <strong>click to replace</strong></p>
+        <div class="preview-box">
+          <img id="ePhotoPreview" class="thumb-preview" src="" alt="Current Dish Photo" />
+          <span id="ePhotoLabel" class="preview-label" style="display:inline;">Current photo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="edit-modal-footer">
+      <button class="cancel-btn" onclick="closeEdit()">Cancel</button>
+      <button class="save-btn" onclick="saveEdit()">💾 Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── AUTHENTICATION (admin / admin123) ───
+  function doLogin() {
+    const u = document.getElementById('uname').value.trim();
+    const p = document.getElementById('pwd').value;
+    if (u === 'admin' && p === 'admin123') {
+      sessionStorage.setItem('savoria_admin_logged', 'true');
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadAll();
+    } else {
+      const err = document.getElementById('loginErr');
+      err.style.display = 'block';
+      setTimeout(() => { err.style.display = 'none'; }, 4000);
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('savoria_admin_logged');
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('pwd').value = '';
+  }
+
+  document.getElementById('pwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('uname').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('pwd').focus(); });
+
+  if (sessionStorage.getItem('savoria_admin_logged') === 'true') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    window.addEventListener('DOMContentLoaded', loadAll);
+  }
+
+  // ─── PANEL NAVIGATION ───
+  function showPanel(id, el) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const target = document.getElementById('panel-' + id);
+    if (target) target.classList.add('active');
+    if (el) el.classList.add('active');
+    const titles = {
+      overview: 'Overview',
+      reservations: 'Table Bookings & Reservations',
+      info: 'Restaurant Info',
+      menu: 'Menu Items',
+      gallery: 'Gallery Photos',
+      blog: 'Blog Posts',
+      contact: 'Contact & Hours'
+    };
+    document.getElementById('panelTitle').textContent = titles[id] || 'Dashboard';
+  }
+
+  // ─── DEFAULT RESERVATIONS DATA ───
+  const dReservations = [
+    {
+      id: 'resv_1',
+      type: 'Reserve Table',
+      name: 'Priya Sharma',
+      phone: '+91 98201 23456',
+      date: '2026-09-12',
+      time: '7:00 PM',
+      guests: '2 Guests',
+      occasion: 'Anniversary',
+      tablePref: 'Window Seat',
+      note: 'Window booth requested, celebrating 5th anniversary. Pre-chill champagne.',
+      status: 'Confirmed',
+      ts: '2026-09-08T18:30:00.000Z'
+    },
+    {
+      id: 'dinein_2',
+      type: 'Dine In Order',
+      name: 'Rohan Mehta',
+      phone: '+91 98190 87654',
+      date: '2026-09-13',
+      time: '7:30 PM',
+      guests: '3–4 Guests',
+      tablePref: 'Window Booth',
+      items: [
+        { name: 'Wood-Fired Sea Bass', cat: 'Mains', price: 980, qty: 1, subtotal: 980 },
+        { name: 'Classic Tiramisù', cat: 'Desserts', price: 340, qty: 1, subtotal: 340 }
+      ],
+      total: 1320,
+      note: 'High chair needed for toddler. Please have table ready upon arrival.',
+      status: 'Pending',
+      ts: '2026-09-09T09:15:00.000Z'
+    },
+    {
+      id: 'pickup_3',
+      type: 'Pickup Order',
+      name: 'Ananya Iyer',
+      phone: '+91 97112 45678',
+      date: '2026-09-09',
+      time: 'ASAP (~25 min)',
+      items: [
+        { name: 'Heirloom Bruschetta', cat: 'Starters', price: 380, qty: 1, subtotal: 380 },
+        { name: 'House-made Tagliatelle', cat: 'Mains', price: 720, qty: 1, subtotal: 720 },
+        { name: 'Rosemary Gin Fizz', cat: 'Drinks', price: 420, qty: 1, subtotal: 420 }
+      ],
+      total: 1520,
+      note: 'Extra napkins and eco-friendly cutlery in the bag please.',
+      status: 'Confirmed',
+      ts: '2026-09-09T11:45:00.000Z'
+    }
+  ];
+
+  // ─── DEFAULT DATA ───
+  const dInfo = {
+    rName: 'Savoria Bistro',
+    rTagline: 'Authentic Culinary Tradition',
+    rAbout: 'Founded in 2012 by Chef Marco Aldini and sommelier Elena Rossi, Savoria Bistro was born from a dream — to create a space where food is a celebration of local land and human connection.',
+    rYear: '2012',
+    rRating: '4.9★'
+  };
+
+  const dMenu = [
+    { name: 'Heirloom Bruschetta', cat: 'Starters', price: 380, photo: 'https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400&auto=format&fit=crop', desc: 'Sourdough crostini, roasted cherry tomatoes, fresh basil oil, aged balsamic drizzle.' },
+    { name: 'Forest Mushroom Velouté', cat: 'Starters', price: 450, photo: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&auto=format&fit=crop', desc: 'Wild porcini, truffle cream, crispy shallots, herb oil.' },
+    { name: 'House-made Tagliatelle', cat: 'Mains', price: 720, photo: 'https://images.unsplash.com/photo-1432139509613-5c4255815697?w=400&auto=format&fit=crop', desc: 'Egg pasta, slow-braised lamb ragù, pecorino, toasted pine nuts.' },
+    { name: 'Wood-Fired Sea Bass', cat: 'Mains', price: 980, photo: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop', desc: 'Lemon-caper butter, seasonal vegetables, saffron risotto cake.' },
+    { name: 'Classic Tiramisù', cat: 'Desserts', price: 340, photo: 'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=400&auto=format&fit=crop', desc: 'Espresso-soaked ladyfingers, mascarpone cloud, bittersweet cocoa dust.' },
+    { name: 'Rosemary Gin Fizz', cat: 'Drinks', price: 420, photo: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&auto=format&fit=crop', desc: 'House-infused rosemary gin, elderflower tonic, lemon zest, crushed ice.' },
+    { name: 'Burrata & Heirloom Tomato', cat: 'Starters', price: 520, photo: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=400&auto=format&fit=crop', desc: 'Creamy burrata, heritage tomatoes, pesto oil, sea salt flakes.' },
+    { name: 'Lamb Shoulder Ragù', cat: 'Mains', price: 1150, photo: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&auto=format&fit=crop', desc: '12-hour slow-braised Rajasthani lamb, polenta, gremolata.' },
+    { name: 'Mango Panna Cotta', cat: 'Desserts', price: 290, photo: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&auto=format&fit=crop', desc: 'Alphonso mango, vanilla panna cotta, raspberry coulis.' },
+    { name: 'Spiced Chai Latte', cat: 'Drinks', price: 180, photo: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400&auto=format&fit=crop', desc: 'House-spiced masala chai, oat milk foam, cinnamon dust.' },
+  ];
+
+  const dGallery = [
+    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1481833761820-0509d3217039?w=500&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1432139509613-5c4255815697?w=500&auto=format&fit=crop',
+  ];
+
+  const dBlog = [
+    {
+      title: 'Our New Autumn Menu Is Here',
+      author: 'Chef Marco',
+      date: 'Sep 1, 2026',
+      thumb: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&auto=format&fit=crop',
+      content: 'We are thrilled to unveil our autumn menu, featuring the finest seasonal produce harvested from local farms within 50 miles. Every dish has been crafted to celebrate the warmth and richness of the harvest season.'
+    },
+    {
+      title: 'Behind the Scenes: Wood-Fired Oven',
+      author: 'Elena Rossi',
+      date: 'Aug 20, 2026',
+      thumb: 'https://images.unsplash.com/photo-1481833761820-0509d3217039?w=600&auto=format&fit=crop',
+      content: 'Our wood-fired oven is the heart of Savoria. Reaching temperatures of 450°C, it creates a unique char and smokiness that no conventional oven can replicate.'
+    },
+    {
+      title: 'Meet Our Farmers: The Rossi Orchard',
+      author: 'Chef Marco',
+      date: 'Aug 5, 2026',
+      thumb: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop',
+      content: 'Every ingredient at Savoria has a story. We partner with 12 local farms within 50 miles to source the freshest seasonal produce and organic dairy.'
+    }
+  ];
+
+  const dContact = {
+    cAddr: '742 Evergreen Terrace, Culinary District, CA 94558',
+    cEmail: 'hello@savoriabistro.com',
+    cPhone: '+91 98765 43210',
+    cInsta: '@savoriabistro',
+    h1: '5:00 PM – 10:00 PM',
+    h2: '4:30 PM – 11:00 PM',
+    h3: '10:30 AM – 3:00 PM'
+  };
+
+  function get(k, d) {
+    try {
+      const r = localStorage.getItem('savoria_' + k);
+      return r ? JSON.parse(r) : d;
+    } catch(e) {
+      return d;
+    }
+  }
+
+  function set(k, v) {
+    try {
+      localStorage.setItem('savoria_' + k, JSON.stringify(v));
+    } catch(e) {
+      console.warn('LocalStorage limit reached. Trying without non-essential data', e);
+    }
+  }
+
+  function flash(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 2500);
+  }
+
+  // ─── HIGH-QUALITY RESIZING TO BASE64 (OPTIMIZES STORAGE) ───
+  function fileToBase64(file, maxDim = 800, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = () => resolve(e.target.result);
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ─── DRAG & DROP HANDLER HELPER ───
+  function setupDragDrop(areaId, inputId, onFileSelected) {
+    const area = document.getElementById(areaId);
+    const input = document.getElementById(inputId);
+    if (!area || !input) return;
+
+    ['dragenter', 'dragover'].forEach(name => {
+      area.addEventListener(name, e => {
+        e.preventDefault(); e.stopPropagation();
+        area.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(name => {
+      area.addEventListener(name, e => {
+        e.preventDefault(); e.stopPropagation();
+        area.classList.remove('dragover');
+      });
+    });
+
+    area.addEventListener('drop', e => {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length) {
+        input.files = dt.files;
+        onFileSelected(input);
+      }
+    });
+
+    input.addEventListener('change', () => {
+      onFileSelected(input);
+    });
+  }
+
+  // Hook up Drag & Drop for all 4 areas
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Menu Item Upload
+    setupDragDrop('mDropArea', 'mPhoto', async input => {
+      if (!input.files || !input.files[0]) return;
+      const b64 = await fileToBase64(input.files[0]);
+      input._b64 = b64;
+      const preview = document.getElementById('mPhotoPreview');
+      preview.src = b64;
+      preview.style.display = 'block';
+      document.getElementById('mPhotoLabel').style.display = 'inline';
+    });
+
+    // 2. Gallery Upload (multiple)
+    setupDragDrop('gDropArea', 'gFiles', async input => {
+      if (!input.files || !input.files.length) return;
+      const photos = get('gallery', dGallery);
+      for (let i = 0; i < input.files.length; i++) {
+        const b64 = await fileToBase64(input.files[i]);
+        photos.push(b64);
+      }
+      set('gallery', photos);
+      renderGallery();
+      flash('galleryMsg');
+      updateStats();
+      input.value = '';
+    });
+
+    // 3. Blog Thumb Upload
+    setupDragDrop('bDropArea', 'bThumb', async input => {
+      if (!input.files || !input.files[0]) return;
+      const b64 = await fileToBase64(input.files[0]);
+      input._b64 = b64;
+      const preview = document.getElementById('bThumbPreview');
+      preview.src = b64;
+      preview.style.display = 'block';
+      document.getElementById('bThumbLabel').style.display = 'inline';
+    });
+
+    // 4. Edit Menu Item Photo Replacement
+    setupDragDrop('eDropArea', 'ePhoto', async input => {
+      if (!input.files || !input.files[0]) return;
+      const b64 = await fileToBase64(input.files[0]);
+      input._b64 = b64;
+      const preview = document.getElementById('ePhotoPreview');
+      preview.src = b64;
+      preview.style.display = 'block';
+      const lbl = document.getElementById('ePhotoLabel');
+      lbl.textContent = '✅ New photo selected';
+      lbl.style.color = '#2e7d32';
+    });
+  });
+
+  // ─── INITIAL LOAD ───
+  function loadAll() {
+    const info = get('info', dInfo);
+    ['rName', 'rTagline', 'rAbout', 'rYear', 'rRating'].forEach(k => {
+      if (document.getElementById(k)) document.getElementById(k).value = info[k];
+    });
+
+    const c = get('contact', dContact);
+    ['cAddr', 'cEmail', 'cPhone', 'cInsta', 'h1', 'h2', 'h3'].forEach(k => {
+      if (document.getElementById(k)) document.getElementById(k).value = c[k];
+    });
+
+    renderMenuTable();
+    renderGallery();
+    renderBlogTable();
+    renderReservationsTable();
+    updateStats();
+  }
+
+  function updateStats() {
+    document.getElementById('s-menu').textContent = get('menu', dMenu).length;
+    document.getElementById('s-gallery').textContent = get('gallery', dGallery).length;
+    document.getElementById('s-blog').textContent = get('blog', dBlog).length;
+    
+    // Reservations stats
+    const resvs = get('reservations', dReservations);
+    if (document.getElementById('s-resv')) document.getElementById('s-resv').textContent = resvs.length;
+    if (document.getElementById('resvCountBadge')) document.getElementById('resvCountBadge').textContent = resvs.length;
+    if (document.getElementById('rf-all')) document.getElementById('rf-all').textContent = resvs.length;
+    if (document.getElementById('rf-pending')) document.getElementById('rf-pending').textContent = resvs.filter(r=>r.status==='Pending').length;
+    if (document.getElementById('rf-confirmed')) document.getElementById('rf-confirmed').textContent = resvs.filter(r=>r.status==='Confirmed').length;
+    if (document.getElementById('rf-tables')) document.getElementById('rf-tables').textContent = resvs.filter(r=>!r.type || r.type==='Reserve Table').length;
+    if (document.getElementById('rf-dinein')) document.getElementById('rf-dinein').textContent = resvs.filter(r=>r.type==='Dine In Order').length;
+    if (document.getElementById('rf-pickup')) document.getElementById('rf-pickup').textContent = resvs.filter(r=>r.type==='Pickup Order').length;
+
+    const info = get('info', dInfo);
+    document.getElementById('s-rating').textContent = info.rRating || '4.9★';
+  }
+
+  // ─── RESTAURANT INFO & CONTACT ───
+  function saveInfo() {
+    const o = {};
+    ['rName', 'rTagline', 'rAbout', 'rYear', 'rRating'].forEach(k => {
+      o[k] = document.getElementById(k).value.trim();
+    });
+    set('info', o);
+    updateStats();
+    flash('infoMsg');
+  }
+
+  function saveContact() {
+    const o = {};
+    ['cAddr', 'cEmail', 'cPhone', 'cInsta', 'h1', 'h2', 'h3'].forEach(k => {
+      o[k] = document.getElementById(k).value.trim();
+    });
+    set('contact', o);
+    flash('contactMsg');
+  }
+
+  // ─── MENU CRUD ───
+  function addMenuItem() {
+    const name = document.getElementById('mName').value.trim();
+    const price = document.getElementById('mPrice').value;
+    if (!name) { alert('Please enter a dish name.'); return; }
+
+    const photoInput = document.getElementById('mPhoto');
+    const photo = photoInput._b64 || 'https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400';
+
+    const items = get('menu', dMenu);
+    items.push({
+      name: name,
+      cat: document.getElementById('mCat').value,
+      price: price ? Number(price) : 0,
+      photo: photo,
+      desc: document.getElementById('mDesc').value.trim() || 'Seasonal specialty prepared with regional harvests.'
+    });
+    set('menu', items);
+
+    // Reset Form
+    ['mName', 'mPrice', 'mDesc'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('mPhotoPreview').style.display = 'none';
+    document.getElementById('mPhotoLabel').style.display = 'none';
+    photoInput._b64 = null;
+    photoInput.value = '';
+
+    renderMenuTable();
+    flash('menuMsg');
+    updateStats();
+  }
+
+  function deleteMenuItem(i) {
+    if (!confirm('Are you sure you want to delete this menu item?')) return;
+    const items = get('menu', dMenu);
+    items.splice(i, 1);
+    set('menu', items);
+    renderMenuTable();
+    updateStats();
+  }
+
+  function renderMenuTable() {
+    const items = get('menu', dMenu);
+    const tbody = document.getElementById('menuTable');
+    if (!items.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#999;padding:24px;">No items on the menu. Add one above!</td></tr>';
+      return;
+    }
+    tbody.innerHTML = items.map((item, i) => `
+      <tr>
+        <td style="width:64px;">
+          <img class="td-img" src="${item.photo || 'https://placehold.co/56x44'}" onerror="this.src='https://placehold.co/56x44'" alt="${item.name}" />
+        </td>
+        <td><strong>${item.name}</strong></td>
+        <td><span class="tag">${item.cat}</span></td>
+        <td><strong style="color:var(--rust)">₹${item.price}</strong></td>
+        <td style="color:#666;font-size:0.84rem;max-width:260px">${item.desc}</td>
+        <td>
+          <div style="display:flex;gap:8px">
+            <button class="act-btn edit-btn" onclick="openEdit(${i})">✏️ Edit</button>
+            <button class="act-btn del-btn" onclick="deleteMenuItem(${i})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ─── 2. EDIT MODAL LOGIC ───
+  let _activeEditPhoto = '';
+  function openEdit(i) {
+    const items = get('menu', dMenu);
+    const item = items[i];
+    if (!item) return;
+
+    document.getElementById('editIdx').value = i;
+    document.getElementById('eName').value = item.name;
+    document.getElementById('eCat').value = item.cat;
+    document.getElementById('ePrice').value = item.price;
+    document.getElementById('eDesc').value = item.desc || '';
+
+    const preview = document.getElementById('ePhotoPreview');
+    const label = document.getElementById('ePhotoLabel');
+    if (item.photo) {
+      preview.src = item.photo;
+      preview.style.display = 'block';
+      label.textContent = 'Current photo';
+      label.style.color = '#555';
+    } else {
+      preview.style.display = 'none';
+      label.textContent = 'No photo attached';
+    }
+    _activeEditPhoto = item.photo || '';
+    
+    // Clear any previously pending replacement file
+    const photoInput = document.getElementById('ePhoto');
+    photoInput.value = '';
+    photoInput._b64 = null;
+
+    document.getElementById('editOverlay').classList.add('open');
+  }
+
+  function closeEdit() {
+    document.getElementById('editOverlay').classList.remove('open');
+  }
+
+  function saveEdit() {
+    const i = parseInt(document.getElementById('editIdx').value, 10);
+    const photoInput = document.getElementById('ePhoto');
+    const finalPhoto = photoInput._b64 || _activeEditPhoto;
+
+    const items = get('menu', dMenu);
+    items[i] = {
+      name: document.getElementById('eName').value.trim(),
+      cat: document.getElementById('eCat').value,
+      price: Number(document.getElementById('ePrice').value) || 0,
+      desc: document.getElementById('eDesc').value.trim(),
+      photo: finalPhoto
+    };
+    set('menu', items);
+    renderMenuTable();
+    closeEdit();
+    updateStats();
+  }
+
+  // ─── GALLERY CRUD ───
+  function deletePhoto(i) {
+    const p = get('gallery', dGallery);
+    p.splice(i, 1);
+    set('gallery', p);
+    renderGallery();
+    updateStats();
+  }
+
+  function renderGallery() {
+    const photos = get('gallery', dGallery);
+    const container = document.getElementById('galleryGrid');
+    if (!photos.length) {
+      container.innerHTML = '<p style="grid-column:1/-1;color:#888;">No gallery photos. Upload above!</p>';
+      return;
+    }
+    container.innerHTML = photos.map((url, i) => `
+      <div class="gallery-item">
+        <img src="${url}" onerror="this.src='https://placehold.co/150x120'" alt="Gallery Photo ${i + 1}" />
+        <button class="del" onclick="deletePhoto(${i})" title="Delete Photo">✕</button>
+      </div>
+    `).join('');
+  }
+
+  // ─── BLOG CRUD ───
+  function addBlogPost() {
+    const title = document.getElementById('bTitle').value.trim();
+    const content = document.getElementById('bContent').value.trim();
+    if (!title || !content) { alert('Please enter both title and story content.'); return; }
+
+    const bt = document.getElementById('bThumb');
+    const thumb = bt._b64 || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600';
+    const author = document.getElementById('bAuthor').value.trim() || 'Chef Marco';
+    const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+    const posts = get('blog', dBlog);
+    posts.unshift({ title, author, date, thumb, content });
+    set('blog', posts);
+
+    ['bTitle', 'bAuthor', 'bContent'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('bThumbPreview').style.display = 'none';
+    document.getElementById('bThumbLabel').style.display = 'none';
+    bt._b64 = null;
+    bt.value = '';
+
+    renderBlogTable();
+    flash('blogMsg');
+    updateStats();
+  }
+
+  function deletePost(i) {
+    if (!confirm('Are you sure you want to delete this blog post?')) return;
+    const p = get('blog', dBlog);
+    p.splice(i, 1);
+    set('blog', p);
+    renderBlogTable();
+    updateStats();
+  }
+
+  function renderBlogTable() {
+    const posts = get('blog', dBlog);
+    const tbody = document.getElementById('blogTable');
+    if (!posts.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999;padding:24px;">No blog posts yet. Write your first one above!</td></tr>';
+      return;
+    }
+    tbody.innerHTML = posts.map((p, i) => `
+      <tr>
+        <td style="width:64px;">
+          <img class="blog-thumb" src="${p.thumb || 'https://placehold.co/56x44'}" onerror="this.src='https://placehold.co/56x44'" alt="${p.title}" />
+        </td>
+        <td><strong>${p.title}</strong></td>
+        <td>${p.author}</td>
+        <td style="color:#777;font-size:0.85rem">${p.date}</td>
+        <td><button class="act-btn del-btn" onclick="deletePost(${i})">Delete</button></td>
+      </tr>
+    `).join('');
+  }
+
+  // ─── 3. PHYSICAL MENU CARD MODAL ───
+  function openMenuCard() {
+    const info = get('info', dInfo);
+    const taglineEl = document.getElementById('mcTagline');
+    if (taglineEl) taglineEl.textContent = info.rTagline ? `${info.rTagline} — Seasonal Menu` : 'Seasonal Menu — Crafted Daily';
+
+    const items = get('menu', dMenu);
+    const cats = ['Starters', 'Mains', 'Desserts', 'Drinks'];
+    let html = '';
+
+    cats.forEach(cat => {
+      const catItems = items.filter(it => it.cat === cat);
+      if (!catItems.length) return;
+
+      html += `
+        <div class="mc-category">
+          <h3>${cat}</h3>
+          <div class="mc-items-grid">
+            ${catItems.map(item => `
+              <div class="mc-item">
+                <img src="${item.photo || 'https://placehold.co/72x56'}" onerror="this.src='https://placehold.co/72x56'" alt="${item.name}" />
+                <div class="mc-item-info">
+                  <div class="mc-item-row">
+                    <h4>${item.name}</h4>
+                    <div style="display:flex;align-items:baseline;flex:1;min-width:0;">
+                      <div class="mc-dots"></div>
+                      <span class="mc-price">₹${item.price}</span>
+                    </div>
+                  </div>
+                  <p>${item.desc}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    if (!html) {
+      html = '<p style="text-align:center;padding:40px;color:#888;font-family:sans-serif;">No dishes available in the menu yet. Add items in the Admin Panel!</p>';
+    }
+
+    document.getElementById('menuCardBody').innerHTML = html;
+    document.getElementById('menuCardOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenuCard() {
+    document.getElementById('menuCardOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('menuCardOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('menuCardOverlay')) closeMenuCard();
+  });
+  document.getElementById('editOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('editOverlay')) closeEdit();
+  });
+
+  // ─── RESERVATION MANAGEMENT LOGIC ───
+  let activeResvFilter = 'all';
+
+  function filterReservations(filter, btn) {
+    activeResvFilter = filter;
+    document.querySelectorAll('.resv-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderReservationsTable();
+  }
+
+  function renderReservationsTable() {
+    let resvs = get('reservations', dReservations);
+    const tbody = document.getElementById('reservationsTable');
+    if (!tbody) return;
+
+    // Apply Filter
+    if (activeResvFilter !== 'all') {
+      if (activeResvFilter === 'Reserve Table') {
+        resvs = resvs.filter(r => !r.type || r.type === 'Reserve Table');
+      } else if (activeResvFilter === 'Dine In Order' || activeResvFilter === 'Pickup Order') {
+        resvs = resvs.filter(r => r.type === activeResvFilter);
+      } else {
+        resvs = resvs.filter(r => r.status === activeResvFilter);
+      }
+    }
+
+    // Apply Search
+    const q = (document.getElementById('resvSearch')?.value || '').toLowerCase().trim();
+    if (q) {
+      resvs = resvs.filter(r => 
+        (r.name && r.name.toLowerCase().includes(q)) || 
+        (r.phone && r.phone.toLowerCase().includes(q)) ||
+        (r.date && r.date.toLowerCase().includes(q)) ||
+        (r.occasion && r.occasion.toLowerCase().includes(q)) ||
+        (r.items && r.items.some(it => it.name.toLowerCase().includes(q)))
+      );
+    }
+
+    if (!resvs.length) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center;padding:36px;color:#888;">
+            📭 No bookings or orders found in this view. Click <strong>"Seed Demo Bookings"</strong> above to test!
+          </td>
+        </tr>`;
+      return;
+    }
+
+    tbody.innerHTML = resvs.map(r => {
+      const cleanPhone = (r.phone || '').replace(/[^0-9]/g, '');
+      const timeAgo = r.ts ? new Date(r.ts).toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : 'Recent';
+      const orderType = r.type || 'Reserve Table';
+
+      let typeBadge = '<span class="tag" style="background:#f0fdf4;color:#166534;font-weight:700;margin-top:4px;display:inline-block">📅 Table Booking</span>';
+      let waText = encodeURIComponent(`Hi ${r.name}, this is Savoria Bistro confirming your table reservation on ${r.date} at ${r.time} for ${r.guests}. We look forward to hosting you!`);
+
+      if (orderType === 'Dine In Order') {
+        typeBadge = '<span class="tag" style="background:#e0f2fe;color:#0369a1;font-weight:700;margin-top:4px;display:inline-block">🍽️ Dine In Pre-Order</span>';
+        waText = encodeURIComponent(`Hi ${r.name}, Savoria Bistro has confirmed your Dine In Pre-Order for ${r.date} at ${r.time} (Total ₹${(r.total||0).toLocaleString('en-IN')}). Your table is set and food will be freshly prepared on your arrival!`);
+      } else if (orderType === 'Pickup Order') {
+        typeBadge = '<span class="tag" style="background:#fef3c7;color:#b45309;font-weight:700;margin-top:4px;display:inline-block">🥡 Fast Pickup</span>';
+        waText = encodeURIComponent(`Hi ${r.name}, Savoria Bistro is preparing your pickup order (Total ₹${(r.total||0).toLocaleString('en-IN')}). It will be ready at ${r.time} at our front counter!`);
+      }
+
+      // Order items or party details
+      let detailsHtml = '';
+      if (r.items && r.items.length) {
+        const itemsList = r.items.map(it => `• <strong>${it.qty}x</strong> ${it.name}`).join('<br />');
+        detailsHtml = `
+          <div style="font-size:0.78rem;color:#333;line-height:1.4">${itemsList}</div>
+          <div style="margin-top:5px;font-weight:700;color:var(--rust);font-size:0.88rem">Total: ₹${(r.total||0).toLocaleString('en-IN')}</div>
+          ${r.tablePref ? `<div style="font-size:0.75rem;color:#666;margin-top:3px;">🪑 ${r.tablePref}</div>` : ''}
+        `;
+      } else {
+        detailsHtml = `
+          <span class="tag" style="background:#eef2ff;color:#3730a3;margin-bottom:3px;">👥 ${r.guests || '2 Guests'}</span>
+          <div style="font-size:0.8rem;color:#555">🎉 ${r.occasion || 'Dining'}</div>
+          ${r.tablePref ? `<div style="font-size:0.75rem;color:#777;margin-top:2px;">🪑 ${r.tablePref}</div>` : ''}
+        `;
+      }
+
+      return `
+        <tr>
+          <td>
+            <strong style="color:#1a1a1a;font-size:0.95rem">${r.name}</strong>
+            <div>${typeBadge}</div>
+            <div style="font-size:0.75rem;color:#888;margin-top:3px;">Requested: ${timeAgo}</div>
+          </td>
+          <td>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <a href="tel:${r.phone}" class="call-btn-sm" title="Call Guest">📞 ${r.phone}</a>
+              <a href="https://wa.me/${cleanPhone}?text=${waText}" target="_blank" class="wa-btn-sm" title="Chat on WhatsApp">💬 WhatsApp</a>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:700;color:var(--rust)">📅 ${r.date}</div>
+            <div style="font-size:0.8rem;color:#555">⏰ ${r.time}</div>
+          </td>
+          <td style="min-width:180px">
+            ${detailsHtml}
+          </td>
+          <td style="max-width:220px;font-size:0.82rem;color:#666;line-height:1.5;">
+            ${r.note || '<span style="color:#aaa;font-style:italic">None</span>'}
+          </td>
+          <td>
+            <select class="status-select status-${r.status}" onchange="updateReservationStatus('${r.id}', this.value)">
+              <option value="Pending" ${r.status==='Pending'?'selected':''}>⏳ Pending</option>
+              <option value="Confirmed" ${r.status==='Confirmed'?'selected':''}>✅ Confirmed</option>
+              <option value="Cancelled" ${r.status==='Cancelled'?'selected':''}>❌ Cancelled</option>
+            </select>
+          </td>
+          <td>
+            <button class="act-btn del-btn" onclick="deleteReservation('${r.id}')" title="Delete Booking">🗑️ Delete</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function updateReservationStatus(id, newStatus) {
+    const resvs = get('reservations', dReservations);
+    const item = resvs.find(r => r.id === id);
+    if (item) {
+      item.status = newStatus;
+      set('reservations', resvs);
+      renderReservationsTable();
+      updateStats();
+    }
+  }
+
+  function deleteReservation(id) {
+    if (!confirm('Are you sure you want to remove this booking record?')) return;
+    let resvs = get('reservations', dReservations);
+    resvs = resvs.filter(r => r.id !== id);
+    set('reservations', resvs);
+    renderReservationsTable();
+    updateStats();
+  }
+
+  function clearAllReservations() {
+    if (!confirm('Are you sure you want to clear ALL table booking records?')) return;
+    set('reservations', []);
+    renderReservationsTable();
+    updateStats();
+  }
+
+  function seedDemoReservations() {
+    set('reservations', dReservations);
+    renderReservationsTable();
+    updateStats();
+    alert('✅ Seeded 3 sample reservations!');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeMenuCard();
+      closeEdit();
+    }
+  });
+</script>
+</body>
+</html>

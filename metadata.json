@@ -1,0 +1,6 @@
+{
+  "name": "Savoria Bistro",
+  "description": "Modern restaurant web app featuring instant online ordering, cart with WhatsApp checkout, 3-way reservation/dine-in/pickup system, interactive time slot selection, and full admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

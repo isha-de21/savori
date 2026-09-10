@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu | Savoria Bistro</title>
+    <meta name="description" content="Explore Savoria Bistro's seasonal menu featuring wood-fired mains, handcrafted pasta, artisan starters, desserts, and craft botanical spritzes with prices in ₹." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-wrapper">
+        <a href="index.html" class="brand-logo" id="brandLogo">
+          Savoria <span>Bistro</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link" id="navHome">Home</a></li>
+            <li><a href="about.html" class="nav-link" id="navAbout">About Us</a></li>
+            <li><a href="menu.html" class="nav-link active" id="navMenu">Menu</a></li>
+            <li><a href="gallery.html" class="nav-link" id="navGallery">Gallery</a></li>
+            <li><a href="contact.html" class="nav-link" id="navContact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main style="padding-top: var(--nav-height);">
+      <!-- Banner -->
+      <section style="background-color: var(--color-dark); color: #ffffff; padding: 4.5rem 1.5rem; text-align: center;">
+        <div class="container">
+          <span class="section-badge" style="background-color: rgba(255, 255, 255, 0.12); color: #f7d4bd;">Seasonal Dining</span>
+          <h1 style="color: #ffffff; font-size: clamp(2.4rem, 5vw, 3.5rem); margin-top: 0.5rem;">Our Handcrafted Menu</h1>
+          <p style="color: #d1c8c0; max-width: 620px; margin: 1rem auto 0 auto; font-size: 1.1rem;">
+            Prepared fresh to order using regenerative local harvests, handmade pasta, and heirloom spices. All prices in Indian Rupee (₹).
+          </p>
+        </div>
+      </section>
+
+      <!-- Menu Grid with Filters -->
+      <section class="section-padding menu-section" id="menu">
+        <div class="container">
+          <!-- Filter Tabs -->
+          <div class="menu-filters" id="menuFilters">
+            <button class="filter-btn active" data-filter="all">All Specialties</button>
+            <button class="filter-btn" data-filter="starters">Starters</button>
+            <button class="filter-btn" data-filter="mains">Mains</button>
+            <button class="filter-btn" data-filter="desserts">Desserts</button>
+            <button class="filter-btn" data-filter="drinks">Drinks</button>
+          </div>
+
+          <!-- 6 Menu Cards -->
+          <div class="menu-grid" id="menuGrid">
+            <!-- 1. Starter -->
+            <div class="menu-card" data-category="starters" id="menuItem1">
+              <div class="menu-card-img">
+                <img 
+                  src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=800&q=80" 
+                  alt="Wild Mushroom & Truffle Bruschetta" 
+                  loading="lazy"
+                />
+                <span class="menu-badge">Chef's Pick</span>
+              </div>
+              <div class="menu-card-body">
+                <div class="menu-card-header">
+                  <h3 class="menu-title">Truffle Wild Mushroom Bruschetta</h3>
+                  <span class="menu-price">₹480</span>
+                </div>
+                <p class="menu-desc">
+                  Toasted house sourdough, sautéed forest foraged mushrooms, black truffle glaze, whipped herb ricotta.
+                </p>
+                <div class="menu-meta">
+                  <span>Vegetarian • Sourdough</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Starter -->
+            <div class="menu-card" data-category="starters" id="menuItem2">
+              <div class="menu-card-img">
+                <img 
+                  src="https://images.unsplash.com/photo-1592417817098-8f3d6eb22509?auto=format&fit=crop&w=800&q=80" 
+                  alt="Artisanal Burrata Caprese" 
+                  loading="lazy"
+                />
+                <span class="menu-badge">Fresh</span>
+              </div>
+              <div class="menu-card-body">
+                <div class="menu-card-header">
+                  <h3 class="menu-title">Artisan Burrata Caprese</h3>
+                  <span class="menu-price">₹620</span>
+                </div>
+                <p class="menu-desc">
+                  Creamy Puglia burrata, organic heirloom vine tomatoes, fresh basil emulsion, and 12-year aged Modena balsamic.
+                </p>
+                <div class="menu-meta">
+                  <span>Vegetarian • Organic</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Main -->
+            <div class="menu-card" data-category="mains" id="menuItem3">
+              <div class="menu-card-img">
+                <img 
+                  src="https://images.unsplash.com/photo-1621996346565-e3d5d6281729?auto=format&fit=crop&w=800&q=80" 
+                  alt="Handcrafted Pappardelle al Ragù" 
+                  loading="lazy"
+                />
+                <span class="menu-badge gold">Signature</span>
+              </div>
+              <div class="menu-card-body">
+                <div class="menu-card-header">
+                  <h3 class="menu-title">Pappardelle al Ragù d'Agnello</h3>
+                  <span class="menu-price">₹850</span>
+                </div>
+                <p class="menu-desc">
+                  Hand-rolled egg ribbon pasta, 8-hour braised pasture-raised lamb ragù, rosemary, and 24-month aged Parmigiano Reggiano.
+                </p>
+                <div class="menu-meta">
+                  <span>Handmade Pasta • Braised 8 Hrs</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Main -->
+            <div class="menu-card" data-category="mains" id="menuItem4">
+              <div class="menu-card-img">
+                <img 
+                  src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80" 
+                  alt="Wood-Fired Wild Salmon" 
+                  loading="lazy"
+                />
+                <span class="menu-badge">Wood-Fired</span>
+              </div>
+              <div class="menu-card-body">
+                <div class="menu-card-header">
+                  <h3 class="menu-title">Wood-Fired Wild Salmon</h3>
+                  <span class="menu-price">₹1,150</span>
+                </div>
+                <p class="menu-desc">
+                  Cedar-plank roasted wild catch, tender asparagus spears, citrus butter emulsion, and saffron fingerling potatoes.
+                </p>
+                <div class="menu-meta">
+                  <span>Wild Caught • Gluten-Free</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Dessert -->
+            <div class="menu-card" data-category="desserts" id="menuItem5">
+              <div class="menu-card-img">
+                <img 
+                  src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80" 
+                  alt="Artisanal Espresso Tiramisu" 
+                  loading="lazy"
+                />
+                <span class="menu-badge">House Classic</span>
+              </div>
+              <div class="menu-card-body">
+                <div class="menu-card-header">
+                  <h3 class="menu-title">Classic Espresso Tiramisù</h3>
+                  <span class="menu-price">₹490</span>
+                </div>
+                <p class="menu-desc">
+                  Savoiardi ladyfingers soaked in dark roast espresso & dark rum, layered with silky mascarpone and dusted with Valrhona cocoa.
+                </p>
+                <div class="menu-meta">
+                  <span>House Baked • Vegetarian</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. Drink -->
+            <div class="menu-card" data-category="drinks" id="menuItem6">
+              <div class="menu-card-img">
+                <img 
+                  src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80" 
+                  alt="Smoked Rosemary Botanical Spritz" 
+                  loading="lazy"
+                />
+                <span class="menu-badge">Craft Cocktail</span>
+              </div>
+              <div class="menu-card-body">
+                <div class="menu-card-header">
+                  <h3 class="menu-title">Rosemary Botanical Spritz</h3>
+                  <span class="menu-price">₹420</span>
+                </div>
+                <p class="menu-desc">
+                  Artisanal elderflower cordial, prosecco, freshly torched garden rosemary, and blood orange bitter spritz.
+                </p>
+                <div class="menu-meta">
+                  <span>Signature Mixology • Refreshing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="siteFooter">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col footer-brand">
+            <a href="index.html" class="brand-logo">Savoria <span>Bistro</span></a>
+            <p>Handcrafted dining celebrating heritage recipes, organic local produce, and warm hospitality.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Explore</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="menu.html">Seasonal Menu</a></li>
+              <li><a href="gallery.html">Photo Gallery</a></li>
+              <li><a href="contact.html">Contact & Map</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Hours</h4>
+            <ul class="footer-info-list">
+              <li><div><strong>Mon - Thu</strong><br />5:00 PM – 10:00 PM</div></li>
+              <li><div><strong>Fri - Sat</strong><br />4:30 PM – 11:00 PM</div></li>
+              <li><div><strong>Sunday Brunch</strong><br />10:30 AM – 3:00 PM</div></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul class="footer-info-list">
+              <li><span>742 Evergreen Terrace, Culinary District, CA 94558</span></li>
+              <li><span>+91 98765 43210</span></li>
+              <li><span>hello@savoriabistro.com</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Savoria Bistro. Handcrafted with semantic HTML, modern CSS, and vanilla JavaScript.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
