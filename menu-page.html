@@ -28,6 +28,21 @@
       --border-red: rgba(192, 98, 74, 0.35);
       --text-muted: #9e9ea7;
       --text-light: #ececee;
+      --nav-bg: rgba(13, 13, 14, 0.96);
+      --heading: #ffffff;
+      --input-bg: rgba(255, 255, 255, 0.05);
+    }
+    [data-theme="light"] {
+      --dark-bg: #f5f0e8;
+      --dark-card: #ffffff;
+      --dark-card-hover: #fafafa;
+      --border: #e8e0d5;
+      --border-red: rgba(192, 98, 74, 0.5);
+      --text-muted: #666;
+      --text-light: #111;
+      --nav-bg: rgba(255, 255, 255, 0.96);
+      --heading: #111;
+      --input-bg: #ffffff;
     }
 
     html { scroll-behavior: smooth; }
@@ -42,14 +57,14 @@
     /* ─── 1. TOP NAVBAR ─── */
     nav {
       position: sticky; top: 0; width: 100%; z-index: 1000;
-      background: rgba(13, 13, 14, 0.96); backdrop-filter: blur(12px);
+      background: var(--nav-bg); backdrop-filter: blur(12px);
       display: flex; align-items: center; justify-content: space-between;
       padding: 16px 48px; border-bottom: 1px solid var(--border);
     }
     .brand-logo {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 1.55rem; font-weight: 700; text-decoration: none;
-      color: #ffffff; display: flex; align-items: center; gap: 6px;
+      color: var(--heading); display: flex; align-items: center; gap: 6px;
     }
     .brand-logo span { color: var(--rust); }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
@@ -97,7 +112,7 @@
     .banner-title {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: clamp(2.8rem, 6vw, 4.8rem); font-weight: 700;
-      color: #ffffff; line-height: 1.05; margin-bottom: 14px;
+      color: var(--heading); line-height: 1.05; margin-bottom: 14px;
       letter-spacing: -0.5px;
     }
     .banner-title span {
@@ -116,7 +131,7 @@
     }
     .btn-explore:hover { background: #a84f38; transform: translateY(-2px); }
     .btn-admin-edit {
-      background: rgba(255, 255, 255, 0.1); color: #fff;
+      background: rgba(255, 255, 255, 0.1); color: var(--text-light);
       border: 1px solid rgba(255, 255, 255, 0.3); padding: 13px 26px;
       border-radius: 8px; text-decoration: none; font-weight: 600;
       font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;
@@ -184,7 +199,7 @@
     .cat-nav-link:hover, .cat-nav-link.active {
       background: rgba(192, 98, 74, 0.15);
       border-color: var(--border-red);
-      color: #ffffff; transform: translateX(4px);
+      color: var(--heading); transform: translateX(4px);
     }
     .cat-nav-link .cat-label { display: flex; align-items: center; gap: 10px; }
     .cat-nav-link .cat-count {
@@ -202,7 +217,7 @@
       font-size: 0.85rem; color: #aaaaaa;
       display: flex; flex-direction: column; gap: 12px;
     }
-    .sidebar-contact h4 { color: #ffffff; font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
+    .sidebar-contact h4 { color: var(--heading); font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
     .sidebar-contact-row { display: flex; align-items: flex-start; gap: 10px; }
     .sidebar-contact-row .icon { color: var(--rust); font-size: 1rem; flex-shrink: 0; }
     .sidebar-wa-btn {
@@ -236,7 +251,7 @@
       transition: all 0.2s;
     }
     .filter-pill:hover, .filter-pill.active {
-      background: var(--rust); border-color: var(--rust); color: #fff;
+      background: var(--rust); border-color: var(--rust); color: var(--text-light);
     }
     .search-box {
       display: flex; align-items: center;
@@ -251,7 +266,7 @@
     }
     .search-box input {
       background: transparent; border: none; outline: none;
-      color: #fff; font-size: 0.88rem; width: 100%;
+      color: var(--text-light); font-size: 0.88rem; width: 100%;
     }
     .search-box input::placeholder { color: #777; }
     .search-box button {
@@ -271,7 +286,7 @@
     }
     .cat-title-group h3 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.7rem; font-weight: 700; color: #ffffff;
+      font-size: 1.7rem; font-weight: 700; color: var(--heading);
       display: flex; align-items: center; gap: 10px;
     }
     .cat-title-group .cat-desc {
@@ -344,7 +359,7 @@
     .dish-price-overlay {
       position: absolute; bottom: 12px; right: 12px;
       background: linear-gradient(135deg, var(--rust), #8e1f18);
-      color: #ffffff; font-weight: 700; font-size: 0.98rem;
+      color: var(--heading); font-weight: 700; font-size: 0.98rem;
       padding: 5px 14px; border-radius: 999px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
       letter-spacing: 0.3px; border: 1px solid rgba(255, 255, 255, 0.2);
@@ -354,7 +369,7 @@
       display: flex; flex-direction: column; flex: 1;
     }
     .dish-card-body h4 {
-      font-size: 1.12rem; font-weight: 700; color: #ffffff;
+      font-size: 1.12rem; font-weight: 700; color: var(--heading);
       margin-bottom: 8px; line-height: 1.35;
     }
     .dish-card-body p {
@@ -387,7 +402,7 @@
       display: none; text-align: center; padding: 64px 24px;
       background: var(--dark-card); border-radius: 16px; border: 1px solid var(--border);
     }
-    .global-no-results h3 { font-size: 1.3rem; margin-bottom: 8px; color: #fff; }
+    .global-no-results h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--text-light); }
     .global-no-results p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 18px; }
     .btn-reset-search {
       background: var(--rust); color: white; border: none;
@@ -409,7 +424,7 @@
     }
     .fb-col-info h3 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.65rem; color: #fff; margin-bottom: 8px;
+      font-size: 1.65rem; color: var(--text-light); margin-bottom: 8px;
     }
     .fb-col-info h3 span { color: var(--rust); }
     .fb-col-info p {
@@ -435,7 +450,7 @@
       align-items: center; gap: 6px;
     }
     .delivery-pill {
-      background: #c02b1d; color: #fff;
+      background: #c02b1d; color: var(--text-light);
       font-weight: 800; font-size: 0.82rem; letter-spacing: 1.5px;
       padding: 5px 16px; border-radius: 999px; text-transform: uppercase;
       display: inline-flex; align-items: center; gap: 6px;
@@ -504,10 +519,11 @@
 <!-- 1. TOP NAVBAR -->
 <nav id="topNav">
   <a href="index.html" class="brand-logo" id="siteLogo">
-    <span id="navLogoName">Savoria</span> <span id="navLogoSuffix">Bistro</span>
+    <span id="navLogoName">Savoria</span> <span id="navLogoSuffix" style="color:var(--text-light)">Bistro</span>
   </a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" onclick="toggleNav()" style="color:var(--text-light)">☰</button>
   <ul class="nav-links" id="navLinks">
+    <li><button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme" title="Toggle Dark/Light Mode" style="background:none;border:none;cursor:pointer;font-size:1.15rem;color:var(--text-light);transition:transform .15s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><span id="themeIcon">☀️</span></button></li>
     <li><a href="index.html">Home</a></li>
     <li><a href="index.html#about">About Us</a></li>
     <li><a href="menu-page.html" class="active">Menu</a></li>
@@ -1059,10 +1075,40 @@
     });
   });
 
+  // ─── THEME TOGGLE ───
+  function initTheme() {
+    const savedTheme = localStorage.getItem('savoria_theme') || 'light';
+    // By default menu page is dark, so if light is requested, we set it. 
+    // Wait, the index page is light by default, and menu is dark by default.
+    // So if the user selected dark on index page, we shouldn't change menu page from its dark state.
+    // If they selected light on index page, we set menu page to light.
+    const isDark = savedTheme === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    updateThemeIcon(isDark ? 'dark' : 'light');
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark'; // dark is implicit default here
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('savoria_theme', next);
+    updateThemeIcon(next);
+  }
+
+  function updateThemeIcon(theme) {
+    const icon = document.getElementById('themeIcon');
+    if(icon) {
+      icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+  }
+
   // ─── AUTO-SYNC WITH ADMIN STORAGE ───
   window.addEventListener('storage', loadMenuPage);
   window.addEventListener('pageshow', loadMenuPage);
-  document.addEventListener('DOMContentLoaded', loadMenuPage);
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    loadMenuPage();
+  });
 </script>
 </body>
 </html>

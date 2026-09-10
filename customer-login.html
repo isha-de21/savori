@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Login — Savoria Bistro</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --rust: #c0624a;
+      --rust-dark: #a84f38;
+      --dark: #1a1a1a;
+      --cream: #faf6ee;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f0f2f5; color: #222;
+      background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1600&q=80');
+      background-size: cover; background-position: center;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    }
+    .overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.65);
+    }
+    .login-card {
+      background: white; border-radius: 16px; padding: 44px 38px;
+      width: 100%; max-width: 420px; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35); position: relative; z-index: 10;
+    }
+    .login-card .logo { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; margin-bottom: 6px; text-decoration:none; color:#111; display:block; }
+    .login-card .logo span { color: var(--rust); }
+    .login-card > p { color: #777; font-size: 0.92rem; margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; text-align: left; }
+    .form-group label { display: block; font-size: 0.85rem; color: #444; margin-bottom: 6px; font-weight: 600; }
+    .form-group input {
+      width: 100%; padding: 12px 16px; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 0.95rem; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit;
+    }
+    .form-group input:focus { border-color: var(--rust); box-shadow: 0 0 0 3px rgba(192,98,74,0.15); }
+    .login-btn {
+      width: 100%; background: var(--rust); color: white;
+      padding: 13px; border: none; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .login-btn:hover { background: var(--rust-dark); }
+    .login-btn:active { transform: scale(0.99); }
+    
+    .login-hint {
+      margin-top: 18px; font-size: 0.85rem; color: #666; background: #fafafa;
+      padding: 10px 14px; border-radius: 6px; border: 1px dashed #ddd;
+    }
+    .back-home { margin-top: 16px; display: inline-block; font-size: 0.85rem; color: #555; text-decoration: none; }
+    .back-home:hover { color: var(--rust); text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+<div class="login-card">
+  <a href="index.html" class="logo">Savoria <span>Bistro</span></a>
+  <p>Log in to post reviews & manage reservations</p>
+
+  <form id="customerLoginForm">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="custName" placeholder="e.g. Priya Sharma" required />
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="custEmail" placeholder="you@example.com" required />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="custPass" placeholder="••••••••" required />
+    </div>
+    
+    <button type="submit" class="login-btn">Sign In / Register</button>
+  </form>
+
+  <a href="index.html" class="back-home">← Back to Restaurant</a>
+</div>
+
+<script>
+  document.getElementById('customerLoginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('custName').value.trim();
+    if(name) {
+      localStorage.setItem('savoria_customer_logged_in', 'true');
+      localStorage.setItem('savoria_customer_name', name);
+      window.location.href = 'index.html#reviews';
+    }
+  });
+</script>
+
+</body>
+</html>
